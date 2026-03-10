@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Favorites</title>
+</head>
+<body>
+
+    <div>
+        <img src="logo.jpg" alt="logo" height="100" width="100">
+        <a href="user-dashboard.html">Home</a>
+        <span>|</span>
+        <a href="recipes-list.html">Recipes</a>
+        <span>|</span>
+        <a href="search-results.html">Search</a>
+        <span>|</span>
+        <a href="favorites.html">Favorites</a>
+        <span>|</span>
+        <a href="login.html">Logout</a>
+    </div>
+    <hr>
+
+    <h2>My Favorites</h2>
+
+    <h3>Add a Recipe to Favorites</h3>
+    <form action="favorites.html">
+        <label for="recipePick">Choose a recipe:</label>
+        <br><br>
+        <select name="recipe" id="recipePick" size="6">
+            <option value="grilled_chicken">Grilled Chicken — Main Course</option>
+            <option value="spaghetti_bolognese">Spaghetti Bolognese — Main Course</option>
+            <option value="caesar_salad">Caesar Salad — Appetizer</option>
+            <option value="alfredo_pasta">Chicken Alfredo Pasta — Main Course</option>
+            <option value="lava_cake">Chocolate Lava Cake — Dessert</option>
+            <option value="sambosa">Sambosa — Appetizer</option>
+        </select>
+        <br><br>
+        <input type="submit" value="Add to Favorites">
+    </form>
+
+    <br>
+    <hr>
+
+    <h3>My Favorite Recipes</h3>
+
+    <table border="1" width="100%">
+        <tr>
+            <th>Recipe Name</th>
+            <th>Course Type</th>
+            <th>Description</th>
+            <th>Actions</th>
+            <th>Image</th>
+        </tr>
+        <tr>
+            <td>Grilled Chicken</td>
+            <td>Main Course</td>
+            <td>Juicy grilled chicken marinated with herbs and spices.</td>
+            <td>
+                <a href="recipe-detail.html#grilled-chicken">View Recipe</a>
+                <span>|</span>
+                <a href="favorites.html">Remove from Favorites</a>
+            </td>
+            <td align="center"><img width="100" src="grilled_chicken.jpg" alt="grilled_chicken"></td>
+        </tr>
+    </table>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Delete Recipe Confirmation</title>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <div align="left">
+        <h2>* Explore Recipes *</h2>
+
+        <a href="user-dashboard.html"><button>HOME</button></a>
+        <a href="All-recipes.html"><button>ALL RECIPES</button></a>
+        <a href="Appetizers.html"><button>APPETIZERS</button></a>
+        <a href="Dinner.html"><button>DINNER</button></a>
+        <a href="Lunch.html"><button>LUNCH</button></a>
+        <a href="Breakfast.html"><button>BREAKFAST</button></a>
+        <a href="Desserts.html"><button>DESSERTS</button></a>
+
+        <select onchange="location = this.value;">
+            <option value="">MORE RECIPES</option>
+            <option value="Snacks-Appetizers.html">SNACKS & APPETIZERS</option>
+            <option value="Holidays-Seasons.html">HOLIDAYS & SEASONS</option>
+            <option value="RecipesByMethod.html">RECIPES BY METHOD</option>
+            <option value="Quick-Easy.html">QUICK & EASY</option>
+            <option value="Vegetarian.html">VEGETARIAN</option>
+            <option value="SideDishes.html">SIDE DISHES</option>
+            <option value="LowCarb.html">LOW CARB</option>
+            <option value="Cuisines.html">CUISINES</option>
+            <option value="Salads.html">SALADS</option>
+            <option value="Soups.html">SOUPS</option>
+        </select>
+
+        <a href="add-recipe.html"><button>Add New Recipe</button></a>
+    </div>
+
+    <hr>
+
+    <div align="center">
+
+        <h2>/!\ DELETE CONFIRMATION</h2>
+
+        <h3>Are you sure you want to delete this recipe?</h3>
+
+        <p>
+            This action cannot be undone.
+            Once deleted, the recipe will be permanently removed.
+        </p>
+
+        <br>
+
+        <a href="delete-recipe.html">
+            <button>YES, DELETE RECIPE</button>
+        </a>
+
+        <a href="Recipes.html">
+            <button>CANCEL</button>
+        </a>
+
+    </div>
+
+    <hr>
+
+</body>
+</html>

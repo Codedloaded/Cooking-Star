@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cooking-Star</title>
+ <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: white;
+        }
+
+        .navbar {
+            background-color: #f4f4f4;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+
+        .navbar a:hover {
+            color: #ff6600;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero h1 {
+            font-size: 40px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #555;
+        }
+
+        .hero img {
+            width: 300px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body style="margin:0; font-family:Arial;">
+
+<div style="background:#f4f4f4; padding:10px; border-bottom:1px solid #ccc;">
+
+<img src="logo.jpg" width="80" style="vertical-align:middle;">
+
+<a href="dashboard.html" style="margin-left:20px;">Dashboard</a>
+<a href="add-recipe.html" style="margin-left:20px;">Add Recipe</a>
+<a href="recipes.html" style="margin-left:20px;">All Recipes</a>
+<a href="logout.html" style="margin-left:20px;">Logout</a>
+
+</div>
+
+
+<div style="padding:30px;">
+
+<h1>Admin Dashboard</h1>
+
+<p>Welcome to the recipe website admin panel.</p>
+
+<br>
+
+<h2>Quick Stats</h2>
+
+<table border="1" cellpadding="10" cellspacing="0">
+<tr>
+<th>Total Recipes</th>
+<th>Total Users</th>
+<th>Pending Recipes</th>
+</tr>
+
+<tr>
+<td>25</td>
+<td>10</td>
+<td>3</td>
+</tr>
+
+</table>
+
+<br><br>
+
+<h2>Quick Actions</h2>
+
+<button>Add New Recipe</button>
+<button>View All Recipes</button>
+<button>Manage Users</button>
+
+</div>
+
+</body>
+</html>

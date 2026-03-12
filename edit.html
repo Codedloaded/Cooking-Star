@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Recipe</title>
+</head>
+<body>
+
+<!-- Admin Navigation Bar -->
+<nav>
+    <a href="admin-dashboard.html">Dashboard</a> |
+    <a href="add_recipe.html">Add Recipe</a> |
+    <a href="recipes-list.html">All Recipes</a> |
+    <a href="login.html">Logout</a> |
+    <a href="edit.html">Edit</a>
+    
+</nav>
+<hr>
+
+<h2>Edit Recipe</h2>
+
+<form enctype="multipart/form-data">
+
+    <label for="recipeName">Recipe Name:</label><br>
+    <input type="text" id="recipeName" name="recipeName" value="Chicken Pasta" required><br><br>
+
+    <label for="course">Course Type:</label><br>
+    <select id="course" name="course">
+        <option value="appetizers">Appetizers</option>
+        <option value="main" selected>Main Course</option>
+        <option value="dessert">Dessert</option>
+    </select><br><br>
+
+    <label>Average Cooking Time (minutes):</label><br>
+    <input type="number" name="time" value="30"><br><br>
+
+    <label>Difficulty Level:</label><br>
+    <input type="range" name="difficulty" min="1" max="5" value="3"><br><br>
+
+    <p>Current Recipe Image:</p>
+    <img src="recipe.jpg" width="150"><br><br>
+
+    <label>Change Recipe Image:</label><br>
+    <input type="file" name="recipeImage"><br><br>
+
+    <fieldset>
+        <legend>Ingredients</legend>
+
+        <label>Ingredient 1:</label><br>
+        <input type="text" name="ingredient1" value="Chicken"><br><br>
+
+        <label>Quantity:</label><br>
+        <input type="text" name="quantity1" value="200g"><br><br>
+
+        <label>Ingredient 2:</label><br>
+        <input type="text" name="ingredient2" value="Pasta"><br><br>
+
+        <label>Quantity:</label><br>
+        <input type="text" name="quantity2" value="250g"><br><br>
+
+        <button type="button">Add Another Ingredient</button>
+
+    </fieldset>
+
+    <br>
+
+    <label>Preparation Instructions:</label>
+    
+    <label>Common Mistakes:</label><br>
+
+    <textarea name="instructions" rows="6" cols="40">Boil pasta, cook chicken, mix with sauce.</textarea>
+
+    <textarea name="mistakes" rows="6" cols="40">Do not overcook the pasta.</textarea>
+
+    <br><br>
+
+    <input type="submit" value="Update Recipe">
+    <input type="reset" value="Reset Changes">
+
+</form>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add New Recipe</title>
+  </head>
+  <body>
+    <!-- Admin Navigation Bar -->
+    <nav>
+      <a href="admin-dashboard.html">Dashboard</a> |
+      <a href="add_recipe.html">Add Recipe</a> |
+      <a href="recipes-list.html">All Recipes</a> |
+      <a href="login.html">Logout</a> |
+      <a href="edit.html">Edit</a>
+    </nav>
+
+    <hr />
+
+    <h2>Add New Recipe</h2>
+
+    
+    <form>
+      <h3>Recipe Information</h3>
+
+      <label for="recipeName">Recipe Name:</label><br />
+      <input
+        type="text"
+        id="recipeName"
+        name="recipeName"
+        required
+      /><br /><br />
+
+      <label for="course">Course Type:</label><br />
+      <select id="course" name="course">
+        <option value="appetizers">Appetizers</option>
+        <option value="main">Main Course</option>
+        <option value="dessert">Dessert</option>
+      </select>
+
+      <br /><br />
+
+      <input type="submit" value="Save Recipe Info" />
+    </form>
+
+    <hr />
+
+    
+    <form>
+      <h3>Cooking Details</h3>
+
+      <label>Average Cooking Time (minutes):</label><br />
+      <input type="number" name="time" /><br /><br />
+
+      <label>Difficulty Level (1 = Easy , 5 = Hard):</label><br />
+      <input type="range" name="difficulty" min="1" max="5" /><br /><br />
+
+      <label>Upload Recipe Image:</label><br />
+      <input type="file" name="recipeImage" /><br /><br />
+
+      <input type="submit" value="Save Cooking Details" />
+    </form>
+
+    <hr />
+
+    
+    <form>
+      <h3>Ingredients</h3>
+
+      <label>Ingredient 1:</label><br />
+      <input type="text" name="ingredient1" /><br /><br />
+
+      <label>Quantity:</label><br />
+      <input type="text" name="quantity1" /><br /><br />
+
+      <label>Ingredient 2:</label><br />
+      <input type="text" name="ingredient2" /><br /><br />
+
+      <label>Quantity:</label><br />
+      <input type="text" name="quantity2" /><br /><br />
+
+      <button type="button">Add Another Ingredient</button>
+
+      <br /><br />
+
+      <input type="submit" value="Save Ingredients" />
+    </form>
+
+    <hr />
+
+    
+    <form>
+      <h3>Instructions</h3>
+
+      <label>Preparation Instructions:</label>
+      
+      <label> Common Mistakes:</label><br />
+
+      <textarea name="instructions" rows="6" cols="40"></textarea>
+      <textarea name="mistakes" rows="6" cols="40"></textarea>
+
+      <br /><br />
+
+      <input type="submit" value="Save Instructions" />
+    </form>
+  </body>
+</html>

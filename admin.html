@@ -1,72 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
- <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cooking-Star</title>
- <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: white;
-        }
-
-        .navbar {
-            background-color: #f4f4f4;
-            padding: 15px;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .navbar a {
-            text-decoration: none;
-            color: black;
-            font-weight: bold;
-        }
-
-        .navbar a:hover {
-            color: #ff6600;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 80px 20px;
-        }
-
-        .hero h1 {
-            font-size: 40px;
-        }
-
-        .hero p {
-            font-size: 18px;
-            color: #555;
-        }
-
-        .hero img {
-            width: 300px;
-            margin-top: 20px;
-            border-radius: 10px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cooking-Star</title>
 </head>
 
-<body style="margin:0; font-family:Arial;">
+<body>
 
-<div style="background:#f4f4f4; padding:10px; border-bottom:1px solid #ccc;">
+<!-- Navigation Bar -->
+<div>
 
-<img src="logo.jpg" width="80" style="vertical-align:middle;">
+<img src="logo.jpg" width="80">
 
-<a href="dashboard.html" style="margin-left:20px;">Dashboard</a>
-<a href="add-recipe.html" style="margin-left:20px;">Add Recipe</a>
-<a href="recipes.html" style="margin-left:20px;">All Recipes</a>
-<a href="logout.html" style="margin-left:20px;">Logout</a>
+&nbsp;&nbsp;&nbsp;
+
+<a href="dashboard.html">Dashboard</a>
+&nbsp;&nbsp;&nbsp;
+
+<a href="add-recipe.html">Add Recipe</a>
+&nbsp;&nbsp;&nbsp;
+
+<a href="recipes.html">All Recipes</a>
+&nbsp;&nbsp;&nbsp;
+
+<a href="logout.html">Logout</a>
 
 </div>
 
+<hr>
 
-<div style="padding:30px;">
+<!-- Dashboard Content -->
 
 <h1>Admin Dashboard</h1>
 
@@ -76,7 +40,8 @@
 
 <h2>Quick Stats</h2>
 
-<table border="1" cellpadding="10" cellspacing="0">
+<table border="1" cellpadding="10">
+
 <tr>
 <th>Total Recipes</th>
 <th>Total Users</th>
@@ -95,11 +60,11 @@
 
 <h2>Quick Actions</h2>
 
-<button>Add New Recipe</button>
-<button>View All Recipes</button>
-<button>Manage Users</button>
+<button onclick="location.href='add-recipe.html'">Add New Recipe</button>
 
-</div>
+<button onclick="location.href='recipes.html'">View All Recipes</button>
+
+<button>Manage Users</button>
 
 </body>
 </html>

@@ -1,96 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Sign Up - RecipeFinder</title>
+<meta charset="UTF-8">
+<title>Sign Up - RecipeFinder</title>
 </head>
+
 <body>
 
-    <!-- Navigation Bar with Logo and links exactly like the example -->
-    <div>
-        <img src="logo.jpg" alt="logo" height="50" width="50">
-        <a href="index.html">Home</a>
-        <span>|</span>
-        <a href="recipes.html">Recipes</a>
-        <span>|</span>
-        <a href=
-        "search.html">Search</a>
-        <span>|</span>
-        <a href="favorites.html">Favorites</a>
-        <span>|</span>
-        <a href="logout.html">Logout</a>
-    </div>
-    <hr>
+<!-- Navigation Bar -->
+<div>
+<img src="logo.jpg" alt="logo" height="50" width="50">
 
-    <!-- Sign Up Section -->
-    <h2>Join RecipeFinder!</h2>
-    <p>Create your account and start exploring recipes</p>
+<a href="index.html">Home</a>
+<span>|</span>
 
-    <h3>Create Account</h3>
-    
-    <form>
-        <!-- First Name - label and input on same line -->
-        <div>
-            <label for="first-name">First Name:</label>
-            <input type="text" id="first-name" placeholder="Enter your first name" required>
-        </div>
-        <br>
+<a href="recipes.html">Recipes</a>
+<span>|</span>
 
-        <!-- Last Name - label and input on same line -->
-        <div>
-            <label for="last-name">Last Name:</label>
-            <input type="text" id="last-name" placeholder="Enter your last name" required>
-        </div>
-        <br>
+<a href="search.html">Search</a>
+<span>|</span>
 
-        <!-- Username - label and input on same line -->
-        <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" placeholder="Choose a username" required>
-        </div>
-        <br>
+<a href="favorites.html">Favorites</a>
+<span>|</span>
 
-        <!-- Gender - radio buttons inline -->
-        <div>
-            <label>Gender:</label>
-            <label>
-                <input type="radio" name="gender" value="male" checked> Male
-            </label>
-            <label>
-                <input type="radio" name="gender" value="female"> Female
-            </label>
-        </div>
-        <br>
+<a href="logout.html">Logout</a>
+</div>
 
-        <!-- Email - label and input on same line -->
-        <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" placeholder="Enter your email" required>
-        </div>
-        <br>
-        
-        <!-- Password - label and input on same line -->
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" placeholder="Create a password" required>
-        </div>
-        <br>
+<hr>
 
-        <!-- Confirm Password - label and input on same line -->
-        <div>
-            <label for="confirm-password">Confirm Password:</label>
-            <input type="password" id="confirm-password" placeholder="Confirm your password" required>
-        </div>
-        <br>
-        
-        <!-- Sign Up Button -->
-        <button type="submit">Sign Up</button>
-        
-        <!-- Login Link -->
-        <p>
-            Already have an account? <a href="login.html">Login here</a>
-        </p>
-    </form>
+<h2>Join RecipeFinder!</h2>
+<p>Create your account and start exploring recipes</p>
+
+<h3>Create Account</h3>
+
+<form>
+
+<div>
+<label for="first-name">First Name:</label>
+<input type="text" id="first-name" placeholder="Enter your first name" required>
+</div>
+
+<br>
+
+<div>
+<label for="last-name">Last Name:</label>
+<input type="text" id="last-name" placeholder="Enter your last name" required>
+</div>
+
+<br>
+
+<div>
+<label for="username">Username:</label>
+<input type="text" id="username" placeholder="Choose a username" required>
+</div>
+
+<br>
+
+
+<div>
+<label>Sign up as:</label>
+
+<label>
+<input type="radio" name="role" value="user" checked> User
+</label>
+
+<label>
+<input type="radio" name="role" value="admin"> Admin
+</label>
+
+</div>
+
+<br>
+
+<div>
+<label>Gender:</label>
+
+<label>
+<input type="radio" name="gender" value="male" checked> Male
+</label>
+
+<label>
+<input type="radio" name="gender" value="female"> Female
+</label>
+
+</div>
+
+<br>
+
+<div>
+<label for="email">Email:</label>
+<input type="email" id="email" placeholder="Enter your email" required>
+</div>
+
+<br>
+
+<div>
+<label for="password">Password:</label>
+<input type="password" id="password" placeholder="Create a password" required>
+</div>
+
+<br>
+
+<div>
+<label for="confirm-password">Confirm Password:</label>
+<input type="password" id="confirm-password" placeholder="Confirm your password" required>
+</div>
+
+<br>
+
+<button type="submit">Sign Up</button>
+
+<p>
+Already have an account? <a href="login.html">Login here</a>
+</p>
+
+</form>
 
 </body>
 </html>

@@ -1,178 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>recipes-list</title>
     <meta charset="UTF-8">
+    <title>Recipes - Cooking-Star</title>
 </head>
-
 <body>
 
-
-    <div align="left">
-        <h2>* Explore Recipes *</h2>
-
-        <a href="user-dashboard.html"><button>HOME</button></a>
-        <a href="All-Recipes.html"><button>ALL RECIPES</button></a>
-        <a href="Appetizers.html"><button>APPETIZERS</button></a>
-        <a href="Dinner.html"><button>DINNER</button></a>
-        <a href="Lunch.html"><button>LUNCH</button></a>
-        <a href="Breakfast.html"><button>BREAKFAST</button></a>
-        <a href="Desserts.html"><button>DESSERTS</button></a>
-
-        <select onchange="location = this.value;">
-            <option value="">MORE RECIPES</option>
-            <option value="Snacks-Appetizers.html">SNACKS & APPETIZERS</option>
-            <option value="Holidays-Seasons.html">HOLIDAYS & SEASONS</option>
-            <option value="RecipesByMethod.html">RECIPES BY METHOD</option>
-            <option value="Quick-Easy.html">QUICK & EASY</option>
-            <option value="Vegetarian.html">VEGETARIAN</option>
-            <option value="SideDishes.html">SIDE DISHES</option>
-            <option value="LowCarb.html">LOW CARB</option>
-            <option value="Cuisines.html">CUISINES</option>
-            <option value="Salads.html">SALADS</option>
-            <option value="Soups.html">SOUPS</option>
-        </select>
-
-        <a href="add-recipe.html"><button>Add New Recipe</button></a>
+    <!-- User Navigation Bar -->
+    <div>
+        <img src="logo.jpg" alt="logo" height="100" width="100">
+        <a href="user-dashboard.html">Home</a>
+        <span>|</span>
+        <a href="recipes-list.html">Recipes</a>
+        <span>|</span>
+        <a href="search-results.html">Search</a>
+        <span>|</span>
+        <a href="favorites.html">Favorites</a>
+        <span>|</span>
+        <a href="login.html">Logout</a>
     </div>
-
     <hr>
 
+    <h2>All Recipes</h2>
 
-    <div align="center">
-        <h2>Search Recipe</h2>
-        <p>Find your next delicious recipes!</p>
-        <form action="search-results.html" method="get">
-            <label for="recipe">Search:</label>
-            <input type="text" id="recipe" name="recipe" required placeholder="Find A Recipe">
-            <input type="submit" value="Search">
-        </form>
-    </div>
+    <form action="search-results.html" method="get">
+        <label for="recipe">Search:</label>
+        <input type="text" id="recipe" name="search" placeholder="Find a recipe...">
+        <input type="submit" value="Search">
+    </form>
 
     <br>
 
-
-    <div align="left">
-        <h2>ReCipEs YoU MigHt LoVe</h2>
-        <hr>
-        <p>
-            Explore tasty recipes from quick meals to comforting classics and sweet desserts.
-        </p>
-    </div>
-
-    <br>
-
-
-    <div align="center">
-        <table border="1" cellpadding="40">
-            <tr>
-                <td align="center" width="150" height="80">
-                    <a href="recipe1.html">1. Recipe 1</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-                <td align="center" width="150" height="80">
-                    <a href="recipe2.html">2. Recipe 2</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-                <td align="center" width="150" height="80">
-                    <a href="recipe3.html">3. Recipe 3</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-                <td align="center" width="150" height="80">
-                    <a href="recipe4.html">4. Recipe 4</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-                <td align="center" width="150" height="80">
-                    <a href="recipe5.html">5. Recipe 5</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-                <td align="center" width="150" height="80">
-                    <a href="recipe6.html">6. Recipe 6</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-            </tr>
-
-            <tr>
-                <td align="center" width="150" height="80">
-                    <a href="recipe7.html">7. Recipe 7</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-                <td align="center" width="150" height="80">
-                    <a href="recipe8.html">8. Recipe 8</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-                <td align="center" width="150" height="80">
-                    <a href="recipe9.html">9. Recipe 9</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-                <td align="center" width="150" height="80">
-                    <a href="recipe10.html">10. Recipe 10</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-                <td align="center" width="150" height="80">
-                    <a href="recipe11.html">11. Recipe 11</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-                <td align="center" width="150" height="80">
-                    <a href="recipe12.html">12. Recipe 12</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-            </tr>
-
-            <tr>
-                <td align="center" width="150" height="80">
-                    <a href="recipe13.html">13. Recipe 13</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-                <td align="center" width="150" height="80">
-                    <a href="recipe14.html">14. Recipe 14</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-                <td align="center" width="150" height="80">
-                    <a href="recipe15.html">15. Recipe 15</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-                <td align="center" width="150" height="80">
-                    <a href="recipe16.html">16. Recipe 16</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-                <td align="center" width="150" height="80">
-                    <a href="recipe17.html">17. Recipe 17</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-                <td align="center" width="150" height="80">
-                    <a href="recipe18.html">18. Recipe 18</a><br><br>
-                    <a href="edit-recipe.html"><button>Edit</button></a>
-                    <a href="delete-confirm.html"><button>Delete</button></a>
-                </td>
-            </tr>
-        </table>
-    </div>
-
-    <hr>
-
-    <div align="center">
-
-        <p>Thanks for visiting Cooking Star! Happy Cooking!</p>
-    </div>
+    <table border="1" width="100%">
+        <tr>
+            <th>Recipe Name</th>
+            <th>Course Type</th>
+            <th>Actions</th>
+            <th>Image</th>
+        </tr>
+        <tr>
+            <td>Grilled Chicken</td>
+            <td>Main Course</td>
+            <td>
+                <a href="recipe-detail.html#grilled-chicken">View Recipe</a>
+                <span>|</span>
+                <a href="favorites.html">Add to Favorites</a>
+            </td>
+            <td align="center"><img src="grilled_chicken.jpg" alt="grilled_chicken" width="100"></td>
+        </tr>
+        <tr>
+            <td>Spaghetti Bolognese</td>
+            <td>Main Course</td>
+            <td>
+                <a href="recipe-detail.html#spaghetti-bolognese">View Recipe</a>
+                <span>|</span>
+                <a href="favorites.html">Add to Favorites</a>
+            </td>
+            <td align="center"><img src="spaghetti_bolognese.jpg" alt="spaghetti_bolognese" width="100"></td>
+        </tr>
+        <tr>
+            <td>Caesar Salad</td>
+            <td>Appetizer</td>
+            <td>
+                <a href="recipe-detail.html#caesar-salad">View Recipe</a>
+                <span>|</span>
+                <a href="favorites.html">Add to Favorites</a>
+            </td>
+            <td align="center"><img src="caeser_salad.jpg" alt="caeser_salad" width="100"></td>
+        </tr>
+        <tr>
+            <td>Chicken Alfredo Pasta</td>
+            <td>Main Course</td>
+            <td>
+                <a href="recipe-detail.html#alfredo-pasta">View Recipe</a>
+                <span>|</span>
+                <a href="favorites.html">Add to Favorites</a>
+            </td>
+            <td align="center"><img src="alfredo_pasta.jpg" alt="alfredo_pasta" width="100"></td>
+        </tr>
+        <tr>
+            <td>Chocolate Lava Cake</td>
+            <td>Dessert</td>
+            <td>
+                <a href="recipe-detail.html#lava-cake">View Recipe</a>
+                <span>|</span>
+                <a href="favorites.html">Add to Favorites</a>
+            </td>
+            <td align="center"><img src="lava_cake.jpg" alt="lava_cake" width="100"></td>
+        </tr>
+        <tr>
+            <td>Sambosa</td>
+            <td>Appetizer</td>
+            <td>
+                <a href="recipe-detail.html#sambosa">View Recipe</a>
+                <span>|</span>
+                <a href="favorites.html">Add to Favorites</a>
+            </td>
+            <td align="center"><img src="sambosa.jpg" alt="sambosa" width="100"></td>
+        </tr>
+    </table>
 
 </body>
 </html>

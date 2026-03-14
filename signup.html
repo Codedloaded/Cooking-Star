@@ -1,120 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Sign Up - RecipeFinder</title>
+    <meta charset="UTF-8">
+    <title>Sign Up - Cooking-Star</title>
 </head>
-
 <body>
 
-<!-- Navigation Bar -->
-<div>
-<img src="logo.jpg" alt="logo" height="50" width="50">
+    <div>
+        <img src="logo.jpg" alt="logo" height="100" width="100">
+        <a href="index.html">Home</a>
+        <span>|</span>
+        <a href="login.html">Login</a>
+        <span>|</span>
+        <a href="signup.html">Sign Up</a>
+    </div>
+    <hr>
 
-<a href="index.html">Home</a>
-<span>|</span>
+    <h2>Join Cooking-Star!</h2>
+    <p>Create your account and start exploring recipes.</p>
 
-<a href="recipes.html">Recipes</a>
-<span>|</span>
+    <h3>Create Account</h3>
 
-<a href="search.html">Search</a>
-<span>|</span>
+    <form action="login.html">
 
-<a href="favorites.html">Favorites</a>
-<span>|</span>
+        <label for="first-name">First Name:</label>
+        <input type="text" id="first-name" placeholder="Enter your first name" required>
+        <br><br>
 
-<a href="logout.html">Logout</a>
-</div>
+        <label for="last-name">Last Name:</label>
+        <input type="text" id="last-name" placeholder="Enter your last name" required>
+        <br><br>
 
-<hr>
+        <label for="username">Username:</label>
+        <input type="text" id="username" placeholder="Choose a username" required>
+        <br><br>
 
-<h2>Join RecipeFinder!</h2>
-<p>Create your account and start exploring recipes</p>
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+        <br><br>
 
-<h3>Create Account</h3>
+        <label for="password">Password:</label>
+        <input type="password" id="password" placeholder="Create a password" required>
+        <br><br>
 
-<form>
+        <label for="confirm-password">Confirm Password:</label>
+        <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+        <br><br>
 
-<div>
-<label for="first-name">First Name:</label>
-<input type="text" id="first-name" placeholder="Enter your first name" required>
-</div>
+        <label>Sign up as:</label>
+        <input type="radio" name="role" id="user" value="user" checked>
+        <label for="user">User</label>
+        <input type="radio" name="role" id="admin" value="admin">
+        <label for="admin">Admin</label>
+        <br><br>
 
-<br>
+        <label>Gender:</label>
+        <input type="radio" name="gender" id="male" value="male" checked>
+        <label for="male">Male</label>
+        <input type="radio" name="gender" id="female" value="female">
+        <label for="female">Female</label>
+        <br><br>
 
-<div>
-<label for="last-name">Last Name:</label>
-<input type="text" id="last-name" placeholder="Enter your last name" required>
-</div>
+        <input type="submit" value="Sign Up">
+        <br><br>
 
-<br>
+        <p>Already have an account? <a href="login.html">Login here</a></p>
 
-<div>
-<label for="username">Username:</label>
-<input type="text" id="username" placeholder="Choose a username" required>
-</div>
-
-<br>
-
-
-<div>
-<label>Sign up as:</label>
-
-<label>
-<input type="radio" name="role" value="user" checked> User
-</label>
-
-<label>
-<input type="radio" name="role" value="admin"> Admin
-</label>
-
-</div>
-
-<br>
-
-<div>
-<label>Gender:</label>
-
-<label>
-<input type="radio" name="gender" value="male" checked> Male
-</label>
-
-<label>
-<input type="radio" name="gender" value="female"> Female
-</label>
-
-</div>
-
-<br>
-
-<div>
-<label for="email">Email:</label>
-<input type="email" id="email" placeholder="Enter your email" required>
-</div>
-
-<br>
-
-<div>
-<label for="password">Password:</label>
-<input type="password" id="password" placeholder="Create a password" required>
-</div>
-
-<br>
-
-<div>
-<label for="confirm-password">Confirm Password:</label>
-<input type="password" id="confirm-password" placeholder="Confirm your password" required>
-</div>
-
-<br>
-
-<button type="submit">Sign Up</button>
-
-<p>
-Already have an account? <a href="login.html">Login here</a>
-</p>
-
-</form>
+    </form>
 
 </body>
 </html>

@@ -23,7 +23,26 @@
     <form action="search-results.html">
         <label for="sear">Search</label>
         <input type="search" name="search" id="sear" placeholder="ex: Grilled Chicken...">
+        <input type="submit" value="search">
+        <br>
+        <div>
+            <fieldset>
+                <legend>Search by:</legend>
+ 
+                <input
+                    type="radio" id="dish" name="stype" value="dish" checked>
+                <label for="dish">Search by Dish Name</label>
+ 
+                
+ 
+                <input type="radio" id="ingredient" name="stype" value="ingredient">
+                <label for="ingredient">Search by Ingredient</label>
+ 
+            </fieldset>
+        </div>
     </form>
+    <br>
+    <hr>
     <br>
     <table border="1" width="100%">
         <tr>

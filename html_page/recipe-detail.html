@@ -1,345 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Recipe Detail</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe Details — نجمة الطبخ</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div>
-        <img src="logo.jpg" alt="logo" height="100" width="100">
-        <a href="user-dashboard.html">Home</a>
-        <span>|</span>
-        <a href="recipes-list.html">Recipes</a>
-        <span>|</span>
-        <a href="search-results.html">Search</a>
-        <span>|</span>
-        <a href="favorites.html">Favorites</a>
-        <span>|</span>
-        <a href="login.html">Logout</a>
+  <div id="glitter-container"></div>
+  <div class="chef-duo-deco"></div>
+
+  <!-- ─── Navigation Bar ─── -->
+  <nav class="navbar">
+    <a href="user-dashboard.html" class="logo-link">
+      <img src="NewLogo.png" alt="Chef's Logo" class="logo-img">
+    </a>
+    <div class="nav-links">
+      <a href="user-dashboard.html"> Home</a>
+      <a href="recipes-list.html"> Recipes</a>
+      <a href="search-results.html"> Search</a>
+      <a href="favorites.html"> Favorites</a>
+      <a href="login.html" class="logout"> Logout</a>
     </div>
-    <hr>
+  </nav>
 
-    <h2>Recipe Detail</h2>
+  <!-- ─── Page Header ─── -->
+  <div class="page-header">
+    <h2>Recipe Details</h2>
+    <p>Explore step-by-step instructions for your favourite dishes </p>
+  </div>
 
-    <p>Jump to:
-        <a href="#grilled-chicken">Grilled Chicken</a> |
-        <a href="#spaghetti-bolognese">Spaghetti Bolognese</a> |
-        <a href="#caesar-salad">Caesar Salad</a> |
-        <a href="#alfredo-pasta">Chicken Alfredo Pasta</a> |
-        <a href="#lava-cake">Chocolate Lava Cake</a> |
-        <a href="#sambosa">Sambosa</a>
-    </p>
+  <div class="container">
 
-    <hr>
+    <div class="card" style="padding:22px 30px;">
+      <h3 style="margin-bottom:12px; font-size:1.15rem;">Jump to a Recipe</h3>
+      <div class="recipe-jump-nav" id="jump-nav"></div>
+    </div>
 
-    <!-- ============ GRILLED CHICKEN ============ -->
-    <h3 id="grilled-chicken">Grilled Chicken</h3>
+    <div class="section-divider">✦ ✦ ✦</div>
 
-    <table border="1">
-        <tr>
-            <th>Recipe ID</th>
-            <th>Recipe Name</th>
-            <th>Course</th>
-            <th>Image</th>
-        </tr>
-        <tr>
-            <td>RC-001</td>
-            <td>Grilled Chicken</td>
-            <td>Main Course</td>
-            <td align="center"><img src="grilled_chicken.jpg" alt="grilled_chicken" width="150"></td>
-        </tr>
-    </table>
+    <div id="recipes-container"></div>
 
-    <br>
-    <b>Ingredients</b>
-    <table border="1">
-        <tr>
-            <th>#</th>
-            <th>Ingredient Name</th>
-            <th>Quantity</th>
-        </tr>
-        <tr><td>1</td><td>Chicken Breast</td><td>500 g</td></tr>
-        <tr><td>2</td><td>Olive Oil</td><td>3 tbsp</td></tr>
-        <tr><td>3</td><td>Garlic Cloves</td><td>4 cloves</td></tr>
-        <tr><td>4</td><td>Lemon Juice</td><td>2 tbsp</td></tr>
-        <tr><td>5</td><td>Paprika</td><td>1 tsp</td></tr>
-        <tr><td>6</td><td>Cumin</td><td>1/2 tsp</td></tr>
-        <tr><td>7</td><td>Salt</td><td>1 tsp</td></tr>
-        <tr><td>8</td><td>Black Pepper</td><td>1/2 tsp</td></tr>
-    </table>
+  </div>
 
-    <br>
-    <b>Description</b>
-    <p>
-        Mix olive oil, lemon juice, minced garlic, paprika, cumin, salt, and black pepper in a bowl to make the marinade.
-        Coat the chicken breasts with the marinade and refrigerate for at least 20 minutes.
-        Preheat the grill over medium-high heat and grill the chicken for 6-7 minutes on each side until fully cooked.
-        Let the chicken rest for 5 minutes before serving. Enjoy with a side salad or roasted vegetables.
-    </p>
+  <div id="toast"></div>
 
-    <a href="favorites.html">Add to Favorites</a>
-    <span>|</span>
-    <a href="user-dashboard.html">Back to Recipes</a>
-
-    <hr>
-
-    <!-- ============ SPAGHETTI BOLOGNESE ============ -->
-    <h3 id="spaghetti-bolognese">Spaghetti Bolognese</h3>
-
-    <table border="1">
-        <tr>
-            <th>Recipe ID</th>
-            <th>Recipe Name</th>
-            <th>Course</th>
-            <th>Image</th>
-        </tr>
-        <tr>
-            <td>RC-002</td>
-            <td>Spaghetti Bolognese</td>
-            <td>Main Course</td>
-            <td align="center"><img src="spaghetti_bolognese.jpg" alt="spaghetti_bolognese" width="150"></td>
-        </tr>
-    </table>
-
-    <br>
-    <b>Ingredients</b>
-    <table border="1">
-        <tr>
-            <th>#</th>
-            <th>Ingredient Name</th>
-            <th>Quantity</th>
-        </tr>
-        <tr><td>1</td><td>Spaghetti</td><td>400 g</td></tr>
-        <tr><td>2</td><td>Ground Beef</td><td>300 g</td></tr>
-        <tr><td>3</td><td>Tomato Sauce</td><td>2 cups</td></tr>
-        <tr><td>4</td><td>Onion</td><td>1 medium</td></tr>
-        <tr><td>5</td><td>Garlic Cloves</td><td>3 cloves</td></tr>
-        <tr><td>6</td><td>Olive Oil</td><td>2 tbsp</td></tr>
-        <tr><td>7</td><td>Salt</td><td>1 tsp</td></tr>
-        <tr><td>8</td><td>Black Pepper</td><td>1/2 tsp</td></tr>
-        <tr><td>9</td><td>Parmesan Cheese</td><td>50 g</td></tr>
-    </table>
-
-    <br>
-    <b>Description</b>
-    <p>
-        Heat olive oil in a pan over medium heat. Add chopped onion and garlic and cook until softened.
-        Add ground beef and cook until browned, breaking it up as it cooks.
-        Pour in the tomato sauce, season with salt and pepper, and simmer for 20 minutes on low heat.
-        Meanwhile, cook spaghetti in boiling salted water according to package instructions.
-        Drain the spaghetti and serve topped with the meat sauce and grated parmesan cheese.
-    </p>
-
-    <a href="favorites.html">Add to Favorites</a>
-    <span>|</span>
-    <a href="user-dashboard.html">Back to Recipes</a>
-
-    <hr>
-
-    <!-- ============ CAESAR SALAD ============ -->
-    <h3 id="caesar-salad">Caesar Salad</h3>
-
-    <table border="1">
-        <tr>
-            <th>Recipe ID</th>
-            <th>Recipe Name</th>
-            <th>Course</th>
-            <th>Image</th>
-        </tr>
-        <tr>
-            <td>RC-003</td>
-            <td>Caesar Salad</td>
-            <td>Appetizer</td>
-            <td align="center"><img src="caeser_salad.jpg" alt="caeser_salad" width="150"></td>
-        </tr>
-    </table>
-
-    <br>
-    <b>Ingredients</b>
-    <table border="1">
-        <tr>
-            <th>#</th>
-            <th>Ingredient Name</th>
-            <th>Quantity</th>
-        </tr>
-        <tr><td>1</td><td>Romaine Lettuce</td><td>1 head</td></tr>
-        <tr><td>2</td><td>Caesar Dressing</td><td>4 tbsp</td></tr>
-        <tr><td>3</td><td>Croutons</td><td>1 cup</td></tr>
-        <tr><td>4</td><td>Parmesan Cheese</td><td>50 g</td></tr>
-        <tr><td>5</td><td>Lemon Juice</td><td>1 tbsp</td></tr>
-        <tr><td>6</td><td>Black Pepper</td><td>1/2 tsp</td></tr>
-    </table>
-
-    <br>
-    <b>Description</b>
-    <p>
-        Wash and chop the romaine lettuce into bite-sized pieces and place in a large bowl.
-        Drizzle Caesar dressing over the lettuce and toss well to coat every leaf.
-        Add croutons and shaved parmesan cheese on top.
-        Squeeze a little lemon juice over the salad and finish with freshly ground black pepper.
-        Serve immediately as a fresh and crispy appetizer.
-    </p>
-
-    <a href="favorites.html">Add to Favorites</a>
-    <span>|</span>
-    <a href="user-dashboard.html">Back to Recipes</a>
-
-    <hr>
-
-    <!-- ============ CHICKEN ALFREDO PASTA ============ -->
-    <h3 id="alfredo-pasta">Chicken Alfredo Pasta</h3>
-
-    <table border="1">
-        <tr>
-            <th>Recipe ID</th>
-            <th>Recipe Name</th>
-            <th>Course</th>
-            <th>Image</th>
-        </tr>
-        <tr>
-            <td>RC-004</td>
-            <td>Chicken Alfredo Pasta</td>
-            <td>Main Course</td>
-            <td align="center"><img src="alfredo_pasta.jpg" alt="alfredo_pasta" width="150"></td>
-        </tr>
-    </table>
-
-    <br>
-    <b>Ingredients</b>
-    <table border="1">
-        <tr>
-            <th>#</th>
-            <th>Ingredient Name</th>
-            <th>Quantity</th>
-        </tr>
-        <tr><td>1</td><td>Fettuccine Pasta</td><td>400 g</td></tr>
-        <tr><td>2</td><td>Chicken Breast</td><td>300 g</td></tr>
-        <tr><td>3</td><td>Heavy Cream</td><td>1 cup</td></tr>
-        <tr><td>4</td><td>Butter</td><td>3 tbsp</td></tr>
-        <tr><td>5</td><td>Parmesan Cheese</td><td>80 g</td></tr>
-        <tr><td>6</td><td>Garlic Cloves</td><td>3 cloves</td></tr>
-        <tr><td>7</td><td>Broccoli</td><td>1 cup</td></tr>
-        <tr><td>8</td><td>Salt</td><td>1 tsp</td></tr>
-        <tr><td>9</td><td>Black Pepper</td><td>1/2 tsp</td></tr>
-    </table>
-
-    <br>
-    <b>Description</b>
-    <p>
-        Cook fettuccine in boiling salted water until al dente, then drain and set aside.
-        Season chicken breast with salt and pepper and cook in a pan with butter until golden on both sides. Slice and set aside.
-        In the same pan, saute garlic in butter for 1 minute, then pour in the heavy cream and bring to a gentle simmer.
-        Add parmesan cheese and stir until the sauce thickens. Toss in the cooked pasta and broccoli.
-        Top with the sliced chicken and extra parmesan before serving.
-    </p>
-
-    <a href="favorites.html">Add to Favorites</a>
-    <span>|</span>
-    <a href="user-dashboard.html">Back to Recipes</a>
-
-    <hr>
-
-    <!-- ============ CHOCOLATE LAVA CAKE ============ -->
-    <h3 id="lava-cake">Chocolate Lava Cake</h3>
-
-    <table border="1">
-        <tr>
-            <th>Recipe ID</th>
-            <th>Recipe Name</th>
-            <th>Course</th>
-            <th>Image</th>
-        </tr>
-        <tr>
-            <td>RC-005</td>
-            <td>Chocolate Lava Cake</td>
-            <td>Dessert</td>
-            <td align="center"><img src="lava_cake.jpg" alt="lava_cake" width="150"></td>
-        </tr>
-    </table>
-
-    <br>
-    <b>Ingredients</b>
-    <table border="1">
-        <tr>
-            <th>#</th>
-            <th>Ingredient Name</th>
-            <th>Quantity</th>
-        </tr>
-        <tr><td>1</td><td>Dark Chocolate</td><td>100 g</td></tr>
-        <tr><td>2</td><td>Butter</td><td>80 g</td></tr>
-        <tr><td>3</td><td>Eggs</td><td>2</td></tr>
-        <tr><td>4</td><td>Egg Yolks</td><td>2</td></tr>
-        <tr><td>5</td><td>Sugar</td><td>60 g</td></tr>
-        <tr><td>6</td><td>All-purpose Flour</td><td>2 tbsp</td></tr>
-        <tr><td>7</td><td>Powdered Sugar</td><td>for dusting</td></tr>
-    </table>
-
-    <br>
-    <b>Description</b>
-    <p>
-        Preheat oven to 220°C. Grease two ramekins with butter and dust with flour.
-        Melt dark chocolate and butter together in a bowl over hot water, stirring until smooth. Let cool slightly.
-        Whisk eggs, egg yolks, and sugar together until pale and thick. Fold in the chocolate mixture, then gently fold in the flour.
-        Pour the batter into the prepared ramekins and bake for 10-12 minutes until the edges are set but the center is still soft.
-        Let rest for 1 minute, then invert onto a plate, dust with powdered sugar, and serve immediately.
-    </p>
-
-    <a href="favorites.html">Add to Favorites</a>
-    <span>|</span>
-    <a href="user-dashboard.html">Back to Recipes</a>
-
-    <hr>
-
-    <!-- ============ SAMBOSA ============ -->
-    <h3 id="sambosa">Sambosa</h3>
-
-    <table border="1">
-        <tr>
-            <th>Recipe ID</th>
-            <th>Recipe Name</th>
-            <th>Course</th>
-            <th>Image</th>
-        </tr>
-        <tr>
-            <td>RC-006</td>
-            <td>Sambosa</td>
-            <td>Appetizer</td>
-            <td align="center"><img src="sambosa.jpg" alt="sambosa" width="150"></td>
-        </tr>
-    </table>
-
-    <br>
-    <b>Ingredients</b>
-    <table border="1">
-        <tr>
-            <th>#</th>
-            <th>Ingredient Name</th>
-            <th>Quantity</th>
-        </tr>
-        <tr><td>1</td><td>Spring Roll Sheets</td><td>12 sheets</td></tr>
-        <tr><td>2</td><td>Ground Beef</td><td>250 g</td></tr>
-        <tr><td>3</td><td>Onion</td><td>1 medium</td></tr>
-        <tr><td>4</td><td>Green Chili</td><td>2</td></tr>
-        <tr><td>5</td><td>Cumin</td><td>1 tsp</td></tr>
-        <tr><td>6</td><td>Coriander Powder</td><td>1 tsp</td></tr>
-        <tr><td>7</td><td>Salt</td><td>1 tsp</td></tr>
-        <tr><td>8</td><td>Oil</td><td>for frying</td></tr>
-    </table>
-
-    <br>
-    <b>Description</b>
-    <p>
-        Heat a little oil in a pan and cook the chopped onion until soft. Add ground beef and cook until browned.
-        Season with cumin, coriander powder, salt, and chopped green chili. Mix well and let the filling cool completely.
-        Place a spoonful of filling onto each spring roll sheet and fold into a triangle shape, sealing the edges with a little water.
-        Heat oil in a deep pan over medium-high heat and fry the sambosas in batches until golden and crispy on all sides.
-        Drain on paper towels and serve hot with yogurt dipping sauce or ketchup.
-    </p>
-
-    <a href="favorites.html">Add to Favorites</a>
-    <span>|</span>
-    <a href="user-dashboard.html">Back to Recipes</a>
-
+  <script src="shared.js"></script>
+  <script src="recipe-detail.js"></script>
+  <script>
+    const STARS = ['✦','✧','★','☆','✨','💫','⭐','🌟','🥄','🍕','🍭','🍩', '🍪','🍇','🍓','🍒','🍫','🍴','🍧','🌶️'];
+    const container = document.getElementById('glitter-container');
+    function spawnStar() {
+      const el = document.createElement('div');
+      el.className = 'glitter-star';
+      el.textContent = STARS[Math.floor(Math.random() * STARS.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.fontSize = (0.6 + Math.random() * 1.4) + 'rem';
+      el.style.animationDuration = (5 + Math.random() * 8) + 's';
+      el.style.animationDelay = (Math.random() * 3) + 's';
+      el.style.color = ['#ff5c8a','#ffd700','#ff007f','#ffb347','#ff99bb','#fff176'][Math.floor(Math.random()*6)];
+      container.appendChild(el);
+      setTimeout(() => el.remove(), 14000);
+    }
+    setInterval(spawnStar, 600);
+    for(let i=0;i<12;i++) setTimeout(spawnStar, i*200);
+  </script>
 </body>
 </html>

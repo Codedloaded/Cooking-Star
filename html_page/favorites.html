@@ -1,68 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>My Favorites</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Favorites — نجمة الطبخ</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div>
-        <img src="logo.jpg" alt="logo" height="100" width="100">
-        <a href="user-dashboard.html">Home</a>
-        <span>|</span>
-        <a href="recipes-list.html">Recipes</a>
-        <span>|</span>
-        <a href="search-results.html">Search</a>
-        <span>|</span>
-        <a href="favorites.html">Favorites</a>
-        <span>|</span>
-        <a href="login.html">Logout</a>
+  <!-- ─── Floating Glitter Stars ─── -->
+  <div id="glitter-container"></div>
+
+  <!-- ─── Chef Duo Corner ─── -->
+  <div class="chef-duo-deco"></div>
+
+  <!-- ─── Navigation Bar ─── -->
+  <nav class="navbar">
+    <a href="user-dashboard.html" class="logo-link">
+      <img src="NewLogo.png" alt="Chef's Logo" class="logo-img">
+    </a>
+    <div class="nav-links">
+      <a href="user-dashboard.html"> Home</a>
+      <a href="recipes-list.html"> Recipes</a>
+      <a href="search-results.html"> Search</a>
+      <a href="favorites.html" class="active"> Favorites</a>
+      <a href="login.html" class="logout"> Logout</a>
     </div>
-    <hr>
+  </nav>
 
-    <h2>My Favorites</h2>
+  <!-- ─── Page Header ─── -->
+  <div class="page-header">
+    <h2>My Favorite Recipes</h2>
+    <p>Your personal collection of delicious saves </p>
+  </div>
 
-    <h3>Add a Recipe to Favorites</h3>
-    <form action="favorites.html">
-        <label for="recipePick">Choose a recipe:</label>
-        <br><br>
-        <select name="recipe" id="recipePick" size="6">
-            <option value="grilled_chicken">Grilled Chicken — Main Course</option>
-            <option value="spaghetti_bolognese">Spaghetti Bolognese — Main Course</option>
-            <option value="caesar_salad">Caesar Salad — Appetizer</option>
-            <option value="alfredo_pasta">Chicken Alfredo Pasta — Main Course</option>
-            <option value="lava_cake">Chocolate Lava Cake — Dessert</option>
-            <option value="sambosa">Sambosa — Appetizer</option>
-        </select>
-        <br><br>
-        <input type="submit" value="Add to Favorites">
-    </form>
+  <div class="container">
 
-    <br>
-    <hr>
+    <!-- ─── Add to Favorites Card ─── -->
+    <div class="card">
+      <h3>➕ Add a Recipe to Favorites</h3>
+      <form id="add-fav-form">
+        <div style="display:flex; gap:14px; flex-wrap:wrap; align-items:flex-end;">
+          <div class="form-group" style="flex:1; min-width:200px; margin-bottom:0;">
+            <label for="recipePick">Choose a Recipe:</label>
+            <select id="recipePick" name="recipe">
+              <option value="">— Select a recipe —</option>
+              <option value="grilled-chicken"> Grilled Chicken — Main Course</option>
+              <option value="spaghetti-bolognese"> Spaghetti Bolognese — Main Course</option>
+              <option value="caesar-salad">Caesar Salad — Appetizer</option>
+              <option value="alfredo-pasta"> Chicken Alfredo Pasta — Main Course</option>
+              <option value="lava-cake"> Chocolate Lava Cake — Dessert</option>
+              <option value="sambosa"> Sambosa — Appetizer</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary" style="height:44px;">
+            Add to Favorites
+          </button>
+        </div>
+        <p id="add-fav-error" style="color:var(--pink-deep); font-weight:700; margin-top:10px; font-size:0.9rem;"></p>
+      </form>
+    </div>
 
-    <h3>My Favorite Recipes</h3>
+    <!-- ─── My Favorites List ─── -->
+    <div class="card">
+      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
+        <h3 style="margin-bottom:0;"> Saved Recipes</h3>
+        <div class="search-bar" style="max-width:280px;">
+          <input type="search" id="fav-search" placeholder=" Filter favorites...">
+        </div>
+      </div>
 
-    <table border="1" width="100%">
-        <tr>
-            <th>Recipe Name</th>
-            <th>Course Type</th>
-            <th>Description</th>
-            <th>Actions</th>
-            <th>Image</th>
-        </tr>
-        <tr>
-            <td>Grilled Chicken</td>
-            <td>Main Course</td>
-            <td>Juicy grilled chicken marinated with herbs and spices.</td>
-            <td>
-                <a href="recipe-detail.html#grilled-chicken">View Recipe</a>
-                <span>|</span>
-                <a href="favorites.html">Remove from Favorites</a>
-            </td>
-            <td align="center"><img width="100" src="grilled_chicken.jpg" alt="grilled_chicken"></td>
-        </tr>
-    </table>
+      <div id="fav-empty" class="empty-state" style="display:none;">
+        <div class="emoji">🫙</div>
+        <p>No favorites yet! Add some recipes above.</p>
+      </div>
 
+      <div style="overflow-x:auto;">
+        <table class="favorites-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Recipe Name</th>
+              <th>Course</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="fav-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="toast"></div>
+
+  <script src="shared.js"></script>
+  <script src="favorites.js"></script>
+  <script>
+    // ─── Glitter Stars Generator ───
+    const STARS = ['✦','✧','★','☆','✨','💫','⭐','🌟','🥄','🍕','🍭','🍩', '🍪','🍇','🍓','🍒','🍫','🍴','🍧','🌶️'];
+    const container = document.getElementById('glitter-container');
+    function spawnStar() {
+      const el = document.createElement('div');
+      el.className = 'glitter-star';
+      el.textContent = STARS[Math.floor(Math.random() * STARS.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.fontSize = (0.6 + Math.random() * 1.4) + 'rem';
+      el.style.animationDuration = (5 + Math.random() * 8) + 's';
+      el.style.animationDelay = (Math.random() * 3) + 's';
+      el.style.color = ['#ff5c8a','#ffd700','#ff007f','#ffb347','#ff99bb','#fff176'][Math.floor(Math.random()*6)];
+      container.appendChild(el);
+      setTimeout(() => el.remove(), 14000);
+    }
+    setInterval(spawnStar, 600);
+    for(let i=0;i<12;i++) setTimeout(spawnStar, i*200);
+  </script>
 </body>
 </html>

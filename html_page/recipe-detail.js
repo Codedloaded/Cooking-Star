@@ -137,3 +137,19 @@ function updateAllFavButtons() {
     }
   });
 }
+const STARS = ['✦','✧','★','☆','✨','💫','⭐','🌟','🥄','🍕','🍭','🍩', '🍪','🍇','🍓','🍒','🍫','🍴','🍧','🌶️'];
+    const container = document.getElementById('glitter-container');
+    function spawnStar() {
+      const el = document.createElement('div');
+      el.className = 'glitter-star';
+      el.textContent = STARS[Math.floor(Math.random() * STARS.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.fontSize = (0.6 + Math.random() * 1.4) + 'rem';
+      el.style.animationDuration = (5 + Math.random() * 8) + 's';
+      el.style.animationDelay = (Math.random() * 3) + 's';
+      el.style.color = ['#ff5c8a','#ffd700','#ff007f','#ffb347','#ff99bb','#fff176'][Math.floor(Math.random()*6)];
+      container.appendChild(el);
+      setTimeout(() => el.remove(), 14000);
+    }
+    setInterval(spawnStar, 600);
+    for(let i=0;i<12;i++) setTimeout(spawnStar, i*200);

@@ -1,0 +1,208 @@
+:root {
+    --pink-hot: #ff4f9a;
+    --pink-deep: #d63384;
+    --pink-medium: #ff7eb3;
+    --pink-light: #ffe4ea;
+    --text-mid: #6c4a5c;
+    --text-light: #9b7b8c;
+    --border-pill: 50px;
+}
+
+/* ===== BODY ===== */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #fff0f3, #ffe4ea);
+    margin: 0;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 28px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid rgba(255, 150, 190, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+/* ===== HEART LOGO ===== */
+.logo-wrapper {
+    width: 75px;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(135deg, var(--pink-hot), var(--pink-medium));
+    border-radius: 50% 50% 40% 40%;
+    box-shadow: 0 6px 18px rgba(255, 79, 154, 0.35);
+
+    margin-right: auto;
+    transition: 0.3s ease;
+}
+
+.logo-wrapper:hover {
+    transform: scale(1.05) rotate(-2deg);
+    box-shadow: 0 10px 25px rgba(255, 79, 154, 0.5);
+}
+
+.logo-img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+}
+
+/* ===== NAV LINKS ===== */
+.navbar a {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 0.9rem;
+    padding: 7px 20px;
+    border-radius: 50px;
+    border: 2px solid var(--pink-medium);
+    background: rgba(255, 255, 255, 0.75);
+    color: var(--text-mid);
+    text-decoration: none;
+    transition: all 0.22s ease;
+}
+
+.navbar a:hover {
+    background: linear-gradient(135deg, var(--pink-hot), var(--pink-deep));
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 4px 14px rgba(255, 0, 127, 0.28);
+    transform: translateY(-2px);
+}
+
+/* ===== TITLE ===== */
+h2 {
+    text-align: center;
+    font-family: 'Fredoka One';
+    font-size: 1.8rem;
+    margin: 25px 0;
+    background: linear-gradient(135deg, var(--pink-deep), var(--pink-medium));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ===== FORM ===== */
+form {
+    width: 70%;
+    margin: auto;
+}
+
+/* ===== CARD ===== */
+.section-card {
+    background: rgba(255,255,255,0.95);
+    border-radius: 20px;
+    border: 2px solid rgba(255,150,190,0.4);
+    box-shadow: 0 8px 28px rgba(255,92,138,0.14);
+    padding: 20px;
+    margin-bottom: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    animation: fadeUp 0.4s ease both;
+    transition: 0.3s;
+}
+
+.section-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 45px rgba(255,92,138,0.25);
+}
+
+/* ===== HEADINGS ===== */
+.section-card h3 {
+    font-family: 'Fredoka One';
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, var(--pink-deep), var(--pink-medium));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ===== INPUTS ===== */
+input, select, textarea {
+    border-radius: 14px;
+    border: 2px solid rgba(255,150,190,0.4);
+    padding: 10px;
+    font-family: 'Poppins';
+    background: rgba(255,255,255,0.8);
+    transition: 0.25s;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--pink-medium);
+    box-shadow: 0 0 10px rgba(255,0,127,0.2);
+}
+
+/* ===== BUTTONS ===== */
+.btn-secondary {
+    font-family: 'Fredoka One';
+    padding: 8px 18px;
+    border-radius: var(--border-pill);
+    border: 2px solid var(--pink-medium);
+    background: rgba(255,255,255,0.7);
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, var(--pink-hot), var(--pink-deep));
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg,#ff7070,#e84c3d);
+    color: white;
+    border: none;
+}
+
+.remove-ingredient {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+}
+
+/* ===== INGREDIENT ROW ===== */
+.ingredient-row {
+    display: flex;
+    gap: 10px;
+    align-items: end;
+}
+
+/* ===== BUTTON GROUP ===== */
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+/* ===== ERROR ===== */
+.error-msg {
+    color: #e74c3c;
+    font-size: 12px;
+    display: none;
+}
+
+/* ===== IMAGE ===== */
+#imagePreview img {
+    width: 100%;
+    border-radius: 14px;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

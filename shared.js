@@ -183,14 +183,298 @@ function getCourseBadgeClass(course) {
   return "badge-main";
 }
 
-// ─── Difficulty Stars ───
+// ─── Difficulty Level ───
 function difficultyStars(level) {
-  const filled = "★".repeat(level);
-  const empty  = "☆".repeat(5 - level);
-  return `<span style="color:#f5c842;font-size:1rem;">${filled}${empty}</span>`;
+  const labels = ['', 'Easy', 'Medium', 'Advanced', 'Hard', 'Expert'];
+  const colours = ['', '#5abf4e', '#f5a623', '#e84c3d', '#c5357f', '#7a3050'];
+  const label = labels[level] || 'Medium';
+  const colour = colours[level] || '#f5a623';
+  return `<span style="color:${colour};font-weight:800;font-size:0.78rem;">${label}</span>`;
 }
 
 // ─── Get recipe by id ───
 function getRecipeById(id) {
   return RECIPES_DATA.find(r => r.id === id) || null;
+}
+
+
+
+
+/* =============================================
+   USER DASHBOARD — functions
+   ============================================= */
+let dashFilter = 'all';
+let dashSearch = '';
+
+function dashRenderRecipes() {
+  const grid = document.getElementById('recipes-grid');
+  if (!grid) return;
+
+  const noResults = document.getElementById('no-results');
+  const search = dashSearch.toLowerCase().trim();
+
+  const filtered = RECIPES_DATA.filter(r => {
+    const matchFilter = dashFilter === 'all' || r.course === dashFilter;
+    const matchSearch = !search ||
+      r.name.toLowerCase().includes(search) ||
+      r.course.toLowerCase().includes(search) ||
+      r.ingredients.some(i => i.name.toLowerCase().includes(search));
+    return matchFilter && matchSearch;
+  });
+
+  const statShown = document.getElementById('stat-shown');
+  const statTotal = document.getElementById('stat-total');
+  const statFavs  = document.getElementById('stat-favs');
+  if (statShown) statShown.textContent = filtered.length;
+  if (statTotal) statTotal.textContent = RECIPES_DATA.length;
+  if (statFavs)  statFavs.textContent  = getFavorites().length;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    if (noResults) noResults.style.display = 'block';
+    return;
+  }
+  if (noResults) noResults.style.display = 'none';
+
+  grid.innerHTML = filtered.map((r, i) => {
+    const fav = isFavorite(r.id);
+    const badgeClass = getCourseBadgeClass(r.course);
+    return `
+      <div class="recipe-tile" style="animation-delay:${i * 0.07}s">
+        <img src="${r.image}" alt="${r.name}">
+        <div class="recipe-tile-body">
+          <h4>${r.name}</h4>
+          <div class="recipe-tile-meta">
+            <span class="course-badge ${badgeClass}">${r.course}</span>
+            <span>${r.time} min</span>
+            <span>${difficultyStars(r.difficulty)}</span>
+          </div>
+          <div class="tile-actions">
+            <a href="recipe-detail.html#${r.id}" class="btn-view">View</a>
+            <a href="#" class="btn-fav ${fav ? 'favorited' : ''}" id="fav-${r.id}"
+               onclick="dashToggleFav(event,'${r.id}')">
+              ${fav ? 'Saved' : 'Save'}
+            </a>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function dashFilterRecipes(filter, btn) {
+  dashFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  dashRenderRecipes();
+}
+
+function dashApplySearch() {
+  const input = document.getElementById('dashboard-search');
+  if (input) dashSearch = input.value;
+  dashRenderRecipes();
+}
+
+function dashToggleFav(e, id) {
+  e.preventDefault();
+  const btn = document.getElementById('fav-' + id);
+  if (isFavorite(id)) {
+    removeFavorite(id);
+    btn.textContent = 'Save';
+    btn.classList.remove('favorited');
+    showToast('Removed from favorites');
+  } else {
+    addFavorite(id);
+    btn.textContent = 'Saved';
+    btn.classList.add('favorited');
+    showToast('Added to favorites');
+  }
+  const statFavs = document.getElementById('stat-favs');
+  if (statFavs) statFavs.textContent = getFavorites().length;
+}
+
+function initDashboard() {
+  const searchInput = document.getElementById('dashboard-search');
+  if (!searchInput) return;
+  searchInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') dashApplySearch();
+  });
+  dashRenderRecipes();
+}
+
+
+/* =============================================
+   SEARCH RESULTS — functions
+   ============================================= */
+const RECENT_KEY = 'cookingStar_recent_searches';
+let searchCurrentResults = [];
+
+function searchGetRecent() {
+  try { return JSON.parse(localStorage.getItem(RECENT_KEY)) || []; } catch { return []; }
+}
+
+function searchSaveRecent(term) {
+  if (!term.trim()) return;
+  let r = searchGetRecent().filter(x => x !== term);
+  r.unshift(term);
+  r = r.slice(0, 6);
+  localStorage.setItem(RECENT_KEY, JSON.stringify(r));
+}
+
+function searchRenderRecentTags() {
+  const r = searchGetRecent();
+  const wrap = document.getElementById('recent-searches-wrap');
+  const tags = document.getElementById('recent-tags');
+  if (!wrap || !tags) return;
+  if (r.length === 0) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  tags.innerHTML = r.map(t =>
+    `<span class="recent-tag" onclick="searchUseRecent('${t}')">${t}</span>`
+  ).join('');
+}
+
+function searchUseRecent(term) {
+  const input = document.getElementById('search-input');
+  if (input) input.value = term;
+  runSearch();
+}
+
+function runSearch() {
+  const input = document.getElementById('search-input');
+  if (!input) return;
+  const raw  = input.value.trim();
+  const term = raw.toLowerCase();
+  const stypeEl = document.querySelector('input[name="stype"]:checked');
+  const stype = stypeEl ? stypeEl.value : 'dish';
+
+  const defaultState  = document.getElementById('default-state');
+  const resultsHeader = document.getElementById('results-header');
+  const resultsContainer = document.getElementById('results-container');
+  const noResults     = document.getElementById('no-results');
+
+  if (defaultState) defaultState.style.display = 'none';
+
+  if (!term) {
+    if (resultsHeader)    resultsHeader.style.display    = 'none';
+    if (resultsContainer) resultsContainer.innerHTML     = '';
+    if (noResults)        noResults.style.display        = 'none';
+    if (defaultState)     defaultState.style.display     = 'block';
+    return;
+  }
+
+  searchSaveRecent(raw);
+  searchRenderRecentTags();
+
+  searchCurrentResults = RECIPES_DATA.filter(r => {
+    if (stype === 'dish')       return r.name.toLowerCase().includes(term);
+    if (stype === 'ingredient') return r.ingredients.some(i => i.name.toLowerCase().includes(term));
+    if (stype === 'course')     return r.course.toLowerCase().includes(term);
+    return true;
+  }).map(r => ({ ...r, matchType: stype }));
+
+  sortAndRender();
+}
+
+function sortAndRender() {
+  const sortEl = document.getElementById('sort-select');
+  const sort   = sortEl ? sortEl.value : 'default';
+  let sorted   = [...searchCurrentResults];
+
+  if (sort === 'name')       sorted.sort((a, b) => a.name.localeCompare(b.name));
+  else if (sort === 'time')  sorted.sort((a, b) => a.time - b.time);
+  else if (sort === 'difficulty') sorted.sort((a, b) => a.difficulty - b.difficulty);
+
+  const container     = document.getElementById('results-container');
+  const noResults     = document.getElementById('no-results');
+  const header        = document.getElementById('results-header');
+  const resultCount   = document.getElementById('result-count');
+
+  if (resultCount) resultCount.textContent = sorted.length;
+  if (header)      header.style.display    = 'flex';
+
+  if (sorted.length === 0) {
+    if (container) container.innerHTML = '';
+    if (noResults) noResults.style.display = 'block';
+    return;
+  }
+  if (noResults) noResults.style.display = 'none';
+
+  container.innerHTML = sorted.map((r, i) => {
+    const fav = isFavorite(r.id);
+    const badgeClass = getCourseBadgeClass(r.course);
+    const matchLabel = r.matchType === 'ingredient' ? 'Ingredient Match'
+                     : r.matchType === 'course'     ? 'Course Match'
+                     :                                'Name Match';
+    return `
+      <div class="result-card" style="animation-delay:${i * 0.07}s">
+        <img src="${r.image}" alt="${r.name}">
+        <div class="result-card-body">
+          <div class="result-card-title">${r.name}</div>
+          <div class="result-card-meta">
+            <span class="course-badge ${badgeClass}">${r.course}</span>
+            <span>${r.time} min</span>
+            <span>${difficultyStars(r.difficulty)}</span>
+            <span class="match-badge">${matchLabel}</span>
+          </div>
+          <div class="result-card-desc">${r.description}</div>
+          <div class="result-card-actions">
+            <a href="recipe-detail.html#${r.id}" class="btn-view">View Recipe</a>
+            <a href="#" class="btn-fav ${fav ? 'favorited' : ''}" id="fav-${r.id}"
+               onclick="searchToggleFav(event,'${r.id}')">
+              ${fav ? 'Saved' : 'Save'}
+            </a>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function clearSearch() {
+  const input = document.getElementById('search-input');
+  if (input) input.value = '';
+  searchCurrentResults = [];
+  const container     = document.getElementById('results-container');
+  const resultsHeader = document.getElementById('results-header');
+  const noResults     = document.getElementById('no-results');
+  const defaultState  = document.getElementById('default-state');
+  if (container)     container.innerHTML         = '';
+  if (resultsHeader) resultsHeader.style.display = 'none';
+  if (noResults)     noResults.style.display     = 'none';
+  if (defaultState)  defaultState.style.display  = 'block';
+}
+
+function searchToggleFav(e, id) {
+  e.preventDefault();
+  const btn = document.getElementById('fav-' + id);
+  if (isFavorite(id)) {
+    removeFavorite(id);
+    btn.textContent = 'Save';
+    btn.classList.remove('favorited');
+    showToast('Removed from favorites');
+  } else {
+    addFavorite(id);
+    btn.textContent = 'Saved';
+    btn.classList.add('favorited');
+    showToast('Added to favorites');
+  }
+}
+
+function initSearchPage() {
+  const input = document.getElementById('search-input');
+  if (!input) return;
+
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') runSearch();
+  });
+  input.addEventListener('input', () => {
+    clearTimeout(window._searchTimer);
+    window._searchTimer = setTimeout(runSearch, 350);
+  });
+
+  const urlQ = new URLSearchParams(window.location.search).get('search');
+  if (urlQ) {
+    input.value = urlQ;
+    runSearch();
+  }
+
+  searchRenderRecentTags();
 }

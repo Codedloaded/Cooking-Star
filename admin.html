@@ -2,47 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard - Cooking-Star</title>
+    <title>Admin Dashboard — نجمة الطبخ</title>
+    <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="icon.png">
 </head>
 <body>
 
-    <!-- Admin Navigation Bar -->
-    <div>
-        <img src="logo.jpg" alt="logo" height="100" width="100">
-        <a href="admin.html">Home</a>
-        <span>|</span>
-        <a href="add_recipe.html">Add Recipe</a>
-        <span>|</span>
-        <a href="manage-recipes.html">Manage Recipes</a>
-        <span>|</span>
-        <a href="login.html">Logout</a>
+  <!-- ─── Floating Glitter Stars ─── -->
+  <div id="glitter-container"></div>
+
+  <!-- ─── Chef Duo Corner ─── -->
+  <div class="chef-duo-deco"></div>
+
+  <!-- ─── Navigation Bar ─── -->
+  <nav class="navbar">
+    <a href="user-dashboard.html" class="logo-link">
+      <img src="NewLogo.png" alt="Chef's Logo" class="logo-img">
+    </a>
+    <div class="nav-links">
+      <a href="user-dashboard.html"> Home</a>
+      <a href="recipes-list.html"> Recipes</a>
+      <a href="search-results.html"> Search</a>
+      <a href="favorites.html" class="active"> Favorites</a>
+      <a href="login.html" class="logout"> Logout</a>
     </div>
-    <hr>
+  </nav>
 
-    <h1>Admin Dashboard</h1>
-    <p>Welcome to the Cooking-Star admin panel.</p>
-
+    <!-- ─── Page Header ─── -->
+  <div class="page-header">
+    <h2>ِAdmin Dashboard</h2>
+    <p>Welcome to the Cooking-Star admin panel. </p>
+  </div>
     <br>
+    <div class="page-header">
+        <h3 style="float: center;">Quick Stats</h3>
+    </div>
 
-    <h2>Quick Stats</h2>
-    <table border="1" cellpadding="10">
-        <tr>
-            <th>Total Recipes</th>
-            <th>Total Users</th>
-            <th>Pending Recipes</th>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>10</td>
-            <td>0</td>
-        </tr>
-    </table>
+    <table class="admin-table">
+  <tr>
+    <th>Total Recipes</th>
+    <th>Total Users</th>
+    <th>Pending Recipes</th>
+  </tr>
+
+  <tr>
+    <td id="total-recipes">0</td>
+    <td id="total-users">10</td>
+    <td id="pending-recipes">0</td>
+  </tr>
+</table>
+
 
     <br><br>
 
-    <h2>Quick Actions</h2>
-    <a href="add_recipe.html"><button>Add New Recipe</button></a>
-    <a href="manage-recipes.html"><button>View All Recipes</button></a>
-
+    <div class="page-header">
+        <h3 style="float: left;">Quick Actions</h3>
+    </div>
+    <br>
+    <br>
+    <a href="add_recipe.html" class="btn btn-primary">Add Recipe</a>
+    <a href="manage-recipes.html" class="btn btn-primary">View All Recipes</a>
+    
+    <script src="shared.js"></script>
+    <script src="admin.js"></script>
 </body>
 </html>

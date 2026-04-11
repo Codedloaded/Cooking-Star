@@ -2,28 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cooking-Star</title>
-</head>
+    <title>نجمة الطبخ</title>
+    <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="icon.png">
+  </head>
 <body>
 
-    <div>
-        <img src="logo.jpg" alt="logo" height="100" width="100">
-        <a href="index.html">Home</a>
-        <span>|</span>
-        <a href="login.html">Login</a>
-        <span>|</span>
-        <a href="signup.html">Sign Up</a>
-    </div>
-    <hr>
+  <!-- ─── Floating Glitter Stars ─── -->
+  <div id="glitter-container"></div>
 
+  <!-- ─── Chef Duo Corner ─── -->
+  <div class="chef-duo-deco"></div>
+
+  <!-- ─── Navigation Bar ─── -->
+  <nav class="navbar">
+    <a href="user-dashboard.html" class="logo-link">
+      <img src="NewLogo.png" alt="Chef's Logo" class="logo-img">
+    </a>
+    <div class="nav-links">
+      <a href="user-dashboard.html"> Home</a>
+      <a href="recipes-list.html"> Recipes</a>
+      <a href="search-results.html"> Search</a>
+      <a href="favorites.html" class="active"> Favorites</a>
+      <a href="login.html" class="logout"> Logout</a>
+    </div>
+  </nav>
+<body>
+    <!-- ─── Page Header ─── -->
+  <div class="page-header">
     <h1>Welcome to Cooking-Star</h1>
     <p>Discover and share delicious recipes from around the world.</p>
-
+  </div>
     <br>
+  <div class="center-page">
+    <a href="login.html" class="btn btn-primary">Login</a>
+    <a href="signup.html" class="btn btn-primary">Create an Account</a>
+  </div>
 
-    <a href="login.html">Login</a>
-    <span>|</span>
-    <a href="signup.html">Create an Account</a>
-
+  <script src="index.js"></script>
 </body>
 </html>

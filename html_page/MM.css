@@ -1,0 +1,58 @@
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 30vh;
+    margin-top: 30px; /* دي المسافة اللي هتبعد البوكس عن الجملة اللي فوقه */
+}
+.form-group-horizontal {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    gap:8px;
+}
+
+.form-group-horizontal label {
+    flex: 0 0 90px; /* العرض ده هو اللي بيخلي الكلمات مرصوصة صح */
+    text-align: left;
+    font-weight: 800;
+    color: var(--text-mid);
+}
+
+/* 2. الشكل البيضاوي للبوكسات */
+.form-group-horizontal input {
+    flex: 1;
+    padding: 11px 20px;
+    border: 2.5px solid var(--pink-medium);
+    border-radius: var(--border-pill); /* ده سر الشكل البيضاوي من الـ Variables */
+    background: rgba(255, 240, 246, 0.85);
+    outline: none;
+}
+
+/* 3. تنسيق الراديو بوتونز (الدور والنوع) */
+.role-selection {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: 105px; /* الرقم ده يتماشى مع الـ label الجديد */
+    margin-bottom: 10px;
+}
+
+/* 4. تنسيق جملة "Already have an account?" */
+.auth-footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.auth-footer a {
+    color: var(--pink-hot);
+    font-weight: 800;
+    text-decoration: none;
+}
+.card h3 {
+    text-align: center; /* سنترة النص */
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 25px;
+}

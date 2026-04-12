@@ -346,32 +346,32 @@ function buildNavbar() {
   if (!session) {
     // Guest navbar
     nav.innerHTML = `
-      <a href="index.html" ${active('index.html')}>🏠 Home</a>
-      <a href="login.html" ${active('login.html')}>🔑 Login</a>
-      <a href="signup.html" ${active('signup.html')}>📝 Sign Up</a>
+      <a href="index.html" ${active('index.html')}>Home</a>
+      <a href="login.html" ${active('login.html')}>Login</a>
+      <a href="signup.html" ${active('signup.html')}>Sign Up</a>
     `;
   } else if (session.isAdmin) {
     // Admin navbar
     nav.innerHTML = `
-      <a href="admin.html" ${active('admin.html')}>🏠 Home</a>
+      <a href="admin.html" ${active('admin.html')}>Home</a>
       <a href="add_recipe.html" ${active('add_recipe.html')}>➕ Add Recipe</a>
-      <a href="manage-recipes.html" ${active('manage-recipes.html')}>📋 Manage</a>
+      <a href="manage-recipes.html" ${active('manage-recipes.html')}>Manage</a>
       <span style="font-family:'Fredoka One',sans-serif;color:var(--pink-deep);padding:8px 12px;">
         👤 ${session.firstName}
       </span>
-      <a href="#" ${logoutActive('')} id="nav-logout">🚪 Logout</a>
+      <a href="#" ${logoutActive('')} id="nav-logout">Logout</a>
     `;
   } else {
     // User navbar
     nav.innerHTML = `
-      <a href="user-dashboard.html" ${active('user-dashboard.html')}>🏠 Home</a>
-      <a href="recipes-list.html" ${active('recipes-list.html')}>🍽️ Recipes</a>
-      <a href="search-results.html" ${active('search-results.html')}>🔍 Search</a>
-      <a href="favorites.html" ${active('favorites.html')}>❤️ Favorites</a>
+      <a href="user-dashboard.html" ${active('user-dashboard.html')}>Home</a>
+      <a href="recipes-list.html" ${active('recipes-list.html')}>Recipes</a>
+      <a href="search-results.html" ${active('search-results.html')}>Search</a>
+      <a href="favorites.html" ${active('favorites.html')}>Favorites</a>
       <span style="font-family:'Fredoka One',sans-serif;color:var(--pink-deep);padding:8px 12px;">
         👤 ${session.firstName}
       </span>
-      <a href="#" ${logoutActive('')} id="nav-logout">🚪 Logout</a>
+      <a href="#" ${logoutActive('')} id="nav-logout">Logout</a>
     `;
   }
 

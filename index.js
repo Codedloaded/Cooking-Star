@@ -1,9 +1,19 @@
-// Button click animation (Login + Signup)
+// Button click animation with proper navigation timing
 document.querySelectorAll(".center-page .btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-        btn.style.transform = "scale(0.95)";
+    btn.addEventListener("click", function (e) {
+        e.preventDefault(); // hold navigation until animation finishes
+
+        const target = this.getAttribute("href");
+
+        this.style.transition = "transform 0.15s ease";
+        this.style.transform = "scale(0.93)";
+
         setTimeout(() => {
-            btn.style.transform = "scale(1)";
+            this.style.transform = "scale(1)";
         }, 150);
+
+        setTimeout(() => {
+            window.location.href = target;
+        }, 200);
     });
 });

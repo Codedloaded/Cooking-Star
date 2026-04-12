@@ -1,69 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Dashboard — نجمة الطبخ</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — نجمة الطبخ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="icon.png">
 </head>
 <body>
 
-  <!-- ─── Floating Glitter Stars ─── -->
+  <!-- Floating Glitter Stars -->
   <div id="glitter-container"></div>
 
-  <!-- ─── Chef Duo Corner ─── -->
-  <div class="chef-duo-deco"></div>
-
-  <!-- ─── Navigation Bar ─── -->
+  <!-- Navigation Bar -->
   <nav class="navbar">
-    <a href="user-dashboard.html" class="logo-link">
-      <img src="NewLogo.png" alt="Chef's Logo" class="logo-img">
+    <a href="admin.html" class="logo-link">
+      <img src="NewLogo.png" alt="نجمة الطبخ Logo" class="logo-img">
     </a>
     <div class="nav-links">
-      <a href="user-dashboard.html"> Home</a>
-      <a href="recipes-list.html"> Recipes</a>
-      <a href="search-results.html"> Search</a>
-      <a href="favorites.html" class="active"> Favorites</a>
-      <a href="login.html" class="logout"> Logout</a>
+      <a href="admin.html" class="active">Home</a>
+      <a href="add_recipe.html">Add Recipe</a>
+      <a href="manage-recipes.html">Manage Recipes</a>
+      <a href="login.html" class="logout">Logout</a>
     </div>
   </nav>
 
-    <!-- ─── Page Header ─── -->
+  <!-- Page Header -->
   <div class="page-header">
-    <h2>ِAdmin Dashboard</h2>
-    <p>Welcome to the Cooking-Star admin panel. </p>
+    <h2>🌟 Admin Dashboard</h2>
+    <p>Welcome back! Here's what's cooking in your kitchen ✨</p>
   </div>
-    <br>
-    <div class="page-header">
-        <h3 style="float: center;">Quick Stats</h3>
+
+  <!-- Main Content -->
+  <div class="container">
+
+    <!-- Quick Stats -->
+    <div class="card" style="animation-delay: 0.05s;">
+      <h3>📊 Quick Stats</h3>
+      <div class="admin-stats-grid">
+
+        <div class="stat-card">
+          <div class="stat-icon">🍽️</div>
+          <div class="stat-info">
+            <div class="stat-number" id="total-recipes">0</div>
+            <div class="stat-label">Total Recipes</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-info">
+            <div class="stat-number" id="total-users">10</div>
+            <div class="stat-label">Total Users</div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">⏳</div>
+          <div class="stat-info">
+            <div class="stat-number" id="pending-recipes">0</div>
+            <div class="stat-label">Pending Recipes</div>
+          </div>
+        </div>
+
+      </div>
     </div>
 
-    <table class="admin-table">
-  <tr>
-    <th>Total Recipes</th>
-    <th>Total Users</th>
-    <th>Pending Recipes</th>
-  </tr>
+    <!-- Quick Actions -->
+    <div class="card" style="animation-delay: 0.12s;">
+      <h3>⚡ Quick Actions</h3>
+      <div class="admin-actions-grid">
 
-  <tr>
-    <td id="total-recipes">0</td>
-    <td id="total-users">10</td>
-    <td id="pending-recipes">0</td>
-  </tr>
-</table>
+        <a href="add_recipe.html" class="action-tile">
+          <div class="action-tile-icon">➕</div>
+          <div class="action-tile-label">Add Recipe</div>
+          <div class="action-tile-sub">Create a new dish</div>
+        </a>
 
+        <a href="manage-recipes.html" class="action-tile">
+          <div class="action-tile-icon">📋</div>
+          <div class="action-tile-label">Manage Recipes</div>
+          <div class="action-tile-sub">Edit or delete recipes</div>
+        </a>
 
-    <br><br>
+        <a href="favorites.html" class="action-tile">
+          <div class="action-tile-icon">❤️</div>
+          <div class="action-tile-label">Favorites</div>
+          <div class="action-tile-sub">View saved recipes</div>
+        </a>
 
-    <div class="page-header">
-        <h3 style="float: left;">Quick Actions</h3>
+        <a href="recipes-list.html" class="action-tile">
+          <div class="action-tile-icon">🔍</div>
+          <div class="action-tile-label">Browse Recipes</div>
+          <div class="action-tile-sub">Explore all dishes</div>
+        </a>
+
+      </div>
     </div>
-    <br>
-    <br>
-    <a href="add_recipe.html" class="btn btn-primary">Add Recipe</a>
-    <a href="manage-recipes.html" class="btn btn-primary">View All Recipes</a>
-    
-    <script src="shared.js"></script>
-    <script src="admin.js"></script>
+
+  </div>
+
+  <!-- Inline styles for admin-specific components -->
+  <style>
+    /* ── Stats Grid ── */
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 18px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, rgba(255,240,246,0.9), rgba(255,255,255,0.95));
+      border: 2px solid rgba(255,150,190,0.4);
+      border-radius: 20px;
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      box-shadow: 0 4px 18px rgba(255,92,138,0.12);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      animation: fadeUp 0.45s ease both;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(255,92,138,0.22);
+    }
+
+    .stat-icon {
+      font-size: 2.2rem;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .stat-number {
+      font-family: 'Fredoka One', sans-serif;
+      font-size: 2.4rem;
+      background: linear-gradient(135deg, var(--pink-deep), var(--peach-warm));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--text-light);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Actions Grid ── */
+    .admin-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .action-tile {
+      background: rgba(255,240,246,0.7);
+      border: 2px solid rgba(255,150,190,0.4);
+      border-radius: 20px;
+      padding: 26px 20px;
+      text-align: center;
+      text-decoration: none;
+      transition: all 0.28s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      animation: fadeUp 0.45s ease both;
+      cursor: pointer;
+    }
+
+    .action-tile:hover {
+      background: linear-gradient(135deg, var(--pink-hot), var(--pink-deep));
+      border-color: transparent;
+      transform: translateY(-5px) scale(1.03);
+      box-shadow: 0 12px 32px rgba(232,35,95,0.38);
+    }
+
+    .action-tile:hover .action-tile-label,
+    .action-tile:hover .action-tile-sub {
+      color: #fff;
+      -webkit-text-fill-color: #fff;
+    }
+
+    .action-tile-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .action-tile-label {
+      font-family: 'Fredoka One', sans-serif;
+      font-size: 1.1rem;
+      background: linear-gradient(135deg, var(--pink-deep), var(--peach-warm));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: color 0.28s;
+    }
+
+    .action-tile-sub {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text-light);
+      transition: color 0.28s;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .admin-stats-grid,
+      .admin-actions-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .admin-stats-grid,
+      .admin-actions-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <script src="shared.js"></script>
+  <script src="admin.js"></script>
+  <script src="glitter.js"></script>
 </body>
 </html>

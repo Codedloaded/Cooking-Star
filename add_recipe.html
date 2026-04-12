@@ -23,10 +23,7 @@
       <img src="NewLogo.png" alt="نجمة الطبخ Logo" class="logo-img">
     </a>
     <div class="nav-links">
-      <a href="admin.html">Home</a>
-      <a href="add_recipe.html" class="active">Add Recipe</a>
-      <a href="manage-recipes.html">Manage Recipes</a>
-      <a href="login.html" class="logout">Logout</a>
+      <!-- populated by buildNavbar() in shared.js -->
     </div>
   </nav>
 
@@ -54,9 +51,9 @@
             <label for="courseType">Course Type:</label>
             <select id="courseType">
               <option value="">— Select a course —</option>
-              <option>Appetizers</option>
-              <option>Main Course</option>
-              <option>Dessert</option>
+              <option>🥗 Appetizers</option>
+              <option>🍽️ Main Course</option>
+              <option>🍰 Dessert</option>
             </select>
             <div class="error-msg" id="courseError">⚠️ Please select a course type</div>
           </div>
@@ -104,14 +101,15 @@
 
         <!-- Action Buttons -->
         <div class="btn-group">
-          <input type="submit" value="Save Recipe">
-          <input type="reset" value=" Clear Form" onclick="clearForm()">
+          <input type="submit" value="💾 Save Recipe">
+          <input type="reset" value="🗑️ Clear Form" onclick="clearForm()">
         </div>
 
       </form>
     </div>
   </div>
 
+  <script src="shared.js"></script>
   <script src="glitter.js"></script>
   <script src="add_r.js"></script>
 </body>

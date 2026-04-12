@@ -3,66 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Cooking-Star</title>
+    <title>Login — نجمة الطبخ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="MM.css"> </head>
-
+    <link rel="stylesheet" href="MM.css">
+    <link rel="icon" type="image/png" href="NewLogo.png">
 </head>
 <body>
-<div id="glitter-container"></div>
+    <div id="glitter-container"></div>
+
     <nav class="navbar">
         <a href="index.html" class="logo-link">
-            <img src="newlogo.png" alt="Cooking Star Logo" class="logo-img">
+            <img src="NewLogo.png" alt="Cooking Star Logo" class="logo-img">
         </a>
         <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="login.html" class="active">Login</a>
-            <a href="signup.html">Sign Up</a>
+            <!-- built by buildNavbar() in shared.js -->
         </div>
     </nav>
 
     <header class="page-header">
-    <h1>Welcome to Cooking-Star!</h1>
-    <p>Discover and share amazing recipes from around the world.</p>
-</header>
+        <h1>Welcome Back!</h1>
+        <p>Discover and share amazing recipes from around the world ✨</p>
+    </header>
 
-<main class="auth-container"> <div class="card" style="max-width: 500px; width: 100%;">
-        <h3>Login to Your Account</h3>
+    <main class="auth-container">
+        <div class="card" style="max-width:500px; width:100%;">
+            <h3>🔑 Login to Your Account</h3>
 
-        <form>
-            <div class="form-group-horizontal">
-                <label for="email">Email:</label>
-                <input type="email" id="email" placeholder="Enter your email" required>
-            </div>
+            <form id="login-form">
+                <div class="form-group-horizontal">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
 
-            <div class="form-group-horizontal">
-                <label for="password">Password:</label>
-                <input type="password" id="password" placeholder="Enter your password" required>
-            </div>
+                <div class="form-group-horizontal">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
 
-            <div class="role-selection">
-                <label style="display:inline;"><input type="radio" name="role" value="user" checked> User</label>
-                <label style="display:inline;"><input type="radio" name="role" value="admin"> Admin</label>
-            </div>
+                <div class="role-selection">
+                    <label style="display:inline;"><input type="radio" name="role" value="user" checked> 👤 User</label>
+                    <label style="display:inline;"><input type="radio" name="role" value="admin"> 🛠️ Admin</label>
+                </div>
 
-            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Login</button>
-        
-            <p class="auth-footer">
-    Don't have an account? <a href="signup.html">Register here</a>
-</p>
-    </form>
-    </div>
-</main>
-    
-<script src="shared.js"></script>
-        <script>
-        const loginForm = document.querySelector('form');
-        loginForm.addEventListener('submit', function(event) {
-            event.preventDefault(); 
-            showToast("Welcome back! Logging you in... 🍰");
-                        setTimeout(() => {
-                window.location.href = "user-dashboard.html";
-            }, 100);
+                <div id="login-error" style="
+                    display:none; color:var(--red-warm);
+                    font-size:0.85rem; font-weight:800;
+                    text-align:center; margin-bottom:12px;
+                    background:rgba(232,76,61,0.08);
+                    padding:10px 16px; border-radius:12px;
+                    border:1.5px solid rgba(232,76,61,0.3);
+                "></div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">
+                    🔑 Login
+                </button>
+
+                <p class="auth-footer">
+                    Don't have an account? <a href="signup.html">Register here</a>
+                </p>
+            </form>
+        </div>
+    </main>
+
+    <div id="toast"></div>
+
+    <script src="shared.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email    = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const role     = document.querySelector('input[name="role"]:checked').value;
+            const errorEl  = document.getElementById('login-error');
+
+            const result = loginUser(email, password, role);
+
+            if (!result.ok) {
+                errorEl.textContent = '⚠️ ' + result.error;
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            errorEl.style.display = 'none';
+            setSession(result.user);
+            showToast(`Welcome back, ${result.user.firstName}! 🍰`);
+
+            setTimeout(() => {
+                window.location.href = result.user.isAdmin ? 'admin.html' : 'user-dashboard.html';
+            }, 1000);
         });
     </script>
     <script src="glitter.js"></script>

@@ -7,585 +7,256 @@
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="manage.css">
-  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="icon" type="image/png" href="NewLogo.png">
 </head>
 <body>
 
-  <!-- Floating Glitter Stars -->
   <div id="glitter-container"></div>
-
-  <!-- Chef Duo Corner Decoration -->
   <div class="chef-duo-deco"></div>
 
-  <!-- Navigation Bar -->
   <nav class="navbar">
     <a href="admin.html" class="logo-link">
       <img src="NewLogo.png" alt="نجمة الطبخ Logo" class="logo-img">
     </a>
     <div class="nav-links">
-      <a href="admin.html"> Home</a>
-      <a href="add_recipe.html"> Add Recipe</a>
-      <a href="manage-recipes.html" class="active"> Manage Recipes</a>
-      <a href="login.html" class="logout"> Logout</a>
+      <!-- populated by buildNavbar() in shared.js -->
     </div>
   </nav>
 
-  <!-- Page Header -->
   <div class="page-header">
-    <h2> Manage Recipes</h2>
-    <p>Edit or remove recipes from the collection </p>
+    <h2>📋 Manage Recipes</h2>
+    <p>Edit or remove recipes from the collection ✨</p>
   </div>
 
-  <!-- Main Content -->
   <div class="manage-wrap">
 
-    <!-- Hint card -->
     <div class="card hint-card">
       <p class="hint-text">
-        Select a recipe to <strong>Edit</strong> its details or <strong>Delete</strong> it permanently.
+        Click <strong>✏️ Edit</strong> to update a recipe or <strong>🗑️ Delete</strong> to remove it permanently.
       </p>
     </div>
 
-    <!-- Recipes Table -->
+    <!-- Recipes Table — rendered by JS -->
     <div class="card table-card">
       <table>
         <thead>
           <tr>
-            <th>Recipe Name</th>
-            <th>Course Type</th>
             <th>Image</th>
+            <th>Recipe Name</th>
+            <th>Course</th>
+            <th>Time</th>
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td>Grilled Chicken</td>
-            <td>Main Course</td>
-            <td><img src="grilled_chicken.jpg" alt="grilled_chicken" width="90"></td>
-            <td class="action-cell">
-              <a href="#edit-grilled-chicken"><button class="btn-edit"> Edit</button></a>
-              <a href="#delete-grilled-chicken"><button class="btn-delete"> Delete</button></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Spaghetti Bolognese</td>
-            <td>Main Course</td>
-            <td><img src="spaghetti_bolognese.jpg" alt="spaghetti_bolognese" width="90"></td>
-            <td class="action-cell">
-              <a href="#edit-spaghetti-bolognese"><button class="btn-edit"> Edit</button></a>
-              <a href="#delete-spaghetti-bolognese"><button class="btn-delete"> Delete</button></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Caesar Salad</td>
-            <td>Appetizer</td>
-            <td><img src="caeser_salad.jpg" alt="caeser_salad" width="90"></td>
-            <td class="action-cell">
-              <a href="#edit-caesar-salad"><button class="btn-edit"> Edit</button></a>
-              <a href="#delete-caesar-salad"><button class="btn-delete"> Delete</button></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Chicken Alfredo Pasta</td>
-            <td>Main Course</td>
-            <td><img src="alfredo_pasta.jpg" alt="alfredo_pasta" width="90"></td>
-            <td class="action-cell">
-              <a href="#edit-alfredo-pasta"><button class="btn-edit"> Edit</button></a>
-              <a href="#delete-alfredo-pasta"><button class="btn-delete"> Delete</button></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Chocolate Lava Cake</td>
-            <td>Dessert</td>
-            <td><img src="lava_cake.jpg" alt="lava_cake" width="90"></td>
-            <td class="action-cell">
-              <a href="#edit-lava-cake"><button class="btn-edit"> Edit</button></a>
-              <a href="#delete-lava-cake"><button class="btn-delete"> Delete</button></a>
-            </td>
-          </tr>
-          <tr>
-            <td>Sambosa</td>
-            <td>Appetizer</td>
-            <td><img src="sambosa.jpg" alt="sambosa" width="90"></td>
-            <td class="action-cell">
-              <a href="#edit-sambosa"><button class="btn-edit"> Edit</button></a>
-              <a href="#delete-sambosa"><button class="btn-delete"> Delete</button></a>
-            </td>
-          </tr>
+        <tbody id="recipes-tbody">
         </tbody>
       </table>
+      <div id="empty-msg" style="display:none; text-align:center; padding:40px; color:var(--text-light); font-family:'Fredoka One',sans-serif; font-size:1.1rem;">
+        🫙 No recipes yet. <a href="add_recipe.html" style="color:var(--pink-deep);">Add one!</a>
+      </div>
     </div>
 
-    <!-- ── EDIT SECTIONS (hidden by manage.js on load, revealed per click) ── -->
+    <!-- Edit Panel — injected dynamically -->
+    <div id="edit-panel" style="display:none;">
+      <h2 style="font-family:'Fredoka One',sans-serif; font-size:1.6rem;
+          background:linear-gradient(135deg,var(--pink-deep),var(--peach-warm));
+          -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+          margin:24px 0 12px;">✏️ Edit Recipe</h2>
 
-    <h2>Edit Recipe</h2>
+      <form id="edit-form">
+        <div class="form-row">
+          <label>Recipe Name:</label>
+          <input type="text" id="edit-name" required>
+        </div>
+        <div class="form-row">
+          <label>Course Type:</label>
+          <select id="edit-course">
+            <option value="Appetizer">🥗 Appetizer</option>
+            <option value="Main Course">🍽️ Main Course</option>
+            <option value="Dessert">🍰 Dessert</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Cooking Time (minutes):</label>
+          <input type="number" id="edit-time" min="1">
+        </div>
+        <div class="form-row">
+          <label>Difficulty (1 Easy – 5 Hard):</label>
+          <input type="range" id="edit-difficulty" min="1" max="5">
+        </div>
+        <div class="form-row">
+          <label>Current Image:</label>
+          <img id="edit-img-preview" src="" alt="recipe" class="form-preview-img">
+        </div>
+        <div class="form-row">
+          <label>Change Image:</label>
+          <input type="file" id="edit-image-input" accept="image/*">
+        </div>
+        <div class="form-row">
+          <label>Instructions:</label>
+          <textarea id="edit-instructions" rows="5"></textarea>
+        </div>
+        <div class="form-btns">
+          <input type="submit" value="💾 Save Changes">
+          <button type="button" class="btn-cancel" onclick="closeEditPanel()">✖ Cancel</button>
+        </div>
+      </form>
+    </div>
 
-    <h3 id="edit-grilled-chicken">Edit: Grilled Chicken</h3>
-    <form action="manage-recipes.html">
-      <div class="form-row">
-        <label for="name1">Recipe Name:</label>
-        <input type="text" id="name1" name="recipeName" value="Grilled Chicken" required>
-      </div>
-      <div class="form-row">
-        <label for="course1">Course Type:</label>
-        <select id="course1" name="course">
-          <option value="appetizers">Appetizers</option>
-          <option value="main" selected>Main Course</option>
-          <option value="dessert">Dessert</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <label>Cooking Time (minutes):</label>
-        <input type="number" name="time" value="30">
-      </div>
-      <div class="form-row">
-        <label>Difficulty (1 Easy – 5 Hard):</label>
-        <input type="range" name="difficulty" min="1" max="5" value="2">
-      </div>
-      <div class="form-row">
-        <label>Current Image:</label>
-        <img src="grilled_chicken.jpg" alt="grilled_chicken" class="form-preview-img">
-      </div>
-      <div class="form-row">
-        <label>Change Image:</label>
-        <input type="file" name="recipeImage">
-      </div>
-      <div class="form-row two-col">
-        <div>
-          <label>Ingredient 1:</label>
-          <input type="text" name="ingredient1" value="Chicken Breast">
-        </div>
-        <div>
-          <label>Quantity:</label>
-          <input type="text" name="quantity1" value="500g">
+    <!-- Delete Panel — injected dynamically -->
+    <div id="delete-panel" style="display:none;">
+      <hr style="border:none; border-top:2px dashed rgba(255,150,190,0.4); margin:24px 0;">
+      <h2 style="font-family:'Fredoka One',sans-serif; font-size:1.6rem; color:#b23a48; text-align:center; margin-bottom:8px;">
+        🗑️ Delete Recipe
+      </h2>
+      <p style="text-align:center; color:var(--text-light); font-weight:700; margin-bottom:16px;">
+        ⚠️ This action is permanent and cannot be undone.
+      </p>
+      <div class="card" style="max-width:500px; margin:0 auto; text-align:center; padding:28px;">
+        <div style="font-size:3rem; margin-bottom:12px;">🍽️</div>
+        <div id="delete-recipe-name" style="font-family:'Fredoka One',sans-serif; font-size:1.3rem; color:var(--pink-deep); margin-bottom:6px;"></div>
+        <div id="delete-recipe-course" style="font-size:0.88rem; font-weight:800; color:var(--text-light); margin-bottom:24px;"></div>
+        <div style="display:flex; gap:12px; justify-content:center;">
+          <button class="btn-confirm-delete" id="confirm-delete-btn">✅ Yes, Delete</button>
+          <button class="btn-cancel" onclick="closeDeletePanel()">✖ Cancel</button>
         </div>
       </div>
-      <div class="form-row two-col">
-        <div>
-          <label>Ingredient 2:</label>
-          <input type="text" name="ingredient2" value="Olive Oil">
-        </div>
-        <div>
-          <label>Quantity:</label>
-          <input type="text" name="quantity2" value="3 tbsp">
-        </div>
-      </div>
-      <div class="form-row">
-        <label>Preparation Instructions:</label>
-        <textarea name="instructions">Marinate chicken and grill for 6-7 minutes each side.</textarea>
-      </div>
-      <div class="form-row">
-        <label>Common Mistakes:</label>
-        <textarea name="mistakes">Do not skip the marinating step.</textarea>
-      </div>
-      <div class="form-btns">
-        <input type="submit" value=" Update Recipe">
-        <input type="reset" value="Reset Changes">
-      </div>
-    </form>
-
-    <hr>
-
-    <h3 id="edit-spaghetti-bolognese">Edit: Spaghetti Bolognese</h3>
-    <form action="manage-recipes.html">
-      <div class="form-row">
-        <label for="name2">Recipe Name:</label>
-        <input type="text" id="name2" name="recipeName" value="Spaghetti Bolognese" required>
-      </div>
-      <div class="form-row">
-        <label for="course2">Course Type:</label>
-        <select id="course2" name="course">
-          <option value="appetizers">Appetizers</option>
-          <option value="main" selected>Main Course</option>
-          <option value="dessert">Dessert</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <label>Cooking Time (minutes):</label>
-        <input type="number" name="time" value="40">
-      </div>
-      <div class="form-row">
-        <label>Difficulty (1 Easy – 5 Hard):</label>
-        <input type="range" name="difficulty" min="1" max="5" value="2">
-      </div>
-      <div class="form-row">
-        <label>Current Image:</label>
-        <img src="spaghetti_bolognese.jpg" alt="spaghetti_bolognese" class="form-preview-img">
-      </div>
-      <div class="form-row">
-        <label>Change Image:</label>
-        <input type="file" name="recipeImage">
-      </div>
-      <div class="form-row two-col">
-        <div>
-          <label>Ingredient 1:</label>
-          <input type="text" name="ingredient1" value="Spaghetti">
-        </div>
-        <div>
-          <label>Quantity:</label>
-          <input type="text" name="quantity1" value="400g">
-        </div>
-      </div>
-      <div class="form-row two-col">
-        <div>
-          <label>Ingredient 2:</label>
-          <input type="text" name="ingredient2" value="Ground Beef">
-        </div>
-        <div>
-          <label>Quantity:</label>
-          <input type="text" name="quantity2" value="300g">
-        </div>
-      </div>
-      <div class="form-row">
-        <label>Preparation Instructions:</label>
-        <textarea name="instructions">Cook beef with onion and garlic, add tomato sauce, simmer 20 min. Serve over spaghetti.</textarea>
-      </div>
-      <div class="form-row">
-        <label>Common Mistakes:</label>
-        <textarea name="mistakes">Do not overcook the pasta.</textarea>
-      </div>
-      <div class="form-btns">
-        <input type="submit" value=" Update Recipe">
-        <input type="reset" value="Reset Changes">
-      </div>
-    </form>
-
-    <hr>
-
-    <h3 id="edit-caesar-salad">Edit: Caesar Salad</h3>
-    <form action="manage-recipes.html">
-      <div class="form-row">
-        <label for="name3">Recipe Name:</label>
-        <input type="text" id="name3" name="recipeName" value="Caesar Salad" required>
-      </div>
-      <div class="form-row">
-        <label for="course3">Course Type:</label>
-        <select id="course3" name="course">
-          <option value="appetizers" selected>Appetizers</option>
-          <option value="main">Main Course</option>
-          <option value="dessert">Dessert</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <label>Cooking Time (minutes):</label>
-        <input type="number" name="time" value="15">
-      </div>
-      <div class="form-row">
-        <label>Difficulty (1 Easy – 5 Hard):</label>
-        <input type="range" name="difficulty" min="1" max="5" value="1">
-      </div>
-      <div class="form-row">
-        <label>Current Image:</label>
-        <img src="caeser_salad.jpg" alt="caeser_salad" class="form-preview-img">
-      </div>
-      <div class="form-row">
-        <label>Change Image:</label>
-        <input type="file" name="recipeImage">
-      </div>
-      <div class="form-row two-col">
-        <div>
-          <label>Ingredient 1:</label>
-          <input type="text" name="ingredient1" value="Romaine Lettuce">
-        </div>
-        <div>
-          <label>Quantity:</label>
-          <input type="text" name="quantity1" value="1 head">
-        </div>
-      </div>
-      <div class="form-row two-col">
-        <div>
-          <label>Ingredient 2:</label>
-          <input type="text" name="ingredient2" value="Caesar Dressing">
-        </div>
-        <div>
-          <label>Quantity:</label>
-          <input type="text" name="quantity2" value="4 tbsp">
-        </div>
-      </div>
-      <div class="form-row">
-        <label>Preparation Instructions:</label>
-        <textarea name="instructions">Toss lettuce with dressing, add croutons and parmesan.</textarea>
-      </div>
-      <div class="form-row">
-        <label>Common Mistakes:</label>
-        <textarea name="mistakes">Do not overdress the salad.</textarea>
-      </div>
-      <div class="form-btns">
-        <input type="submit" value=" Update Recipe">
-        <input type="reset" value="Reset Changes">
-      </div>
-    </form>
-
-    <hr>
-
-    <h3 id="edit-alfredo-pasta">Edit: Chicken Alfredo Pasta</h3>
-    <form action="manage-recipes.html">
-      <div class="form-row">
-        <label for="name4">Recipe Name:</label>
-        <input type="text" id="name4" name="recipeName" value="Chicken Alfredo Pasta" required>
-      </div>
-      <div class="form-row">
-        <label for="course4">Course Type:</label>
-        <select id="course4" name="course">
-          <option value="appetizers">Appetizers</option>
-          <option value="main" selected>Main Course</option>
-          <option value="dessert">Dessert</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <label>Cooking Time (minutes):</label>
-        <input type="number" name="time" value="35">
-      </div>
-      <div class="form-row">
-        <label>Difficulty (1 Easy – 5 Hard):</label>
-        <input type="range" name="difficulty" min="1" max="5" value="3">
-      </div>
-      <div class="form-row">
-        <label>Current Image:</label>
-        <img src="alfredo_pasta.jpg" alt="alfredo_pasta" class="form-preview-img">
-      </div>
-      <div class="form-row">
-        <label>Change Image:</label>
-        <input type="file" name="recipeImage">
-      </div>
-      <div class="form-row two-col">
-        <div>
-          <label>Ingredient 1:</label>
-          <input type="text" name="ingredient1" value="Fettuccine Pasta">
-        </div>
-        <div>
-          <label>Quantity:</label>
-          <input type="text" name="quantity1" value="400g">
-        </div>
-      </div>
-      <div class="form-row two-col">
-        <div>
-          <label>Ingredient 2:</label>
-          <input type="text" name="ingredient2" value="Chicken Breast">
-        </div>
-        <div>
-          <label>Quantity:</label>
-          <input type="text" name="quantity2" value="300g">
-        </div>
-      </div>
-      <div class="form-row">
-        <label>Preparation Instructions:</label>
-        <textarea name="instructions">Cook pasta, grill chicken, make cream sauce with butter and parmesan, combine all.</textarea>
-      </div>
-      <div class="form-row">
-        <label>Common Mistakes:</label>
-        <textarea name="mistakes">Do not let the cream sauce boil too hard or it will separate.</textarea>
-      </div>
-      <div class="form-btns">
-        <input type="submit" value=" Update Recipe">
-        <input type="reset" value=" Reset Changes">
-      </div>
-    </form>
-
-    <hr>
-
-    <h3 id="edit-lava-cake">Edit: Chocolate Lava Cake</h3>
-    <form action="manage-recipes.html">
-      <div class="form-row">
-        <label for="name5">Recipe Name:</label>
-        <input type="text" id="name5" name="recipeName" value="Chocolate Lava Cake" required>
-      </div>
-      <div class="form-row">
-        <label for="course5">Course Type:</label>
-        <select id="course5" name="course">
-          <option value="appetizers">Appetizers</option>
-          <option value="main">Main Course</option>
-          <option value="dessert" selected>Dessert</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <label>Cooking Time (minutes):</label>
-        <input type="number" name="time" value="20">
-      </div>
-      <div class="form-row">
-        <label>Difficulty (1 Easy – 5 Hard):</label>
-        <input type="range" name="difficulty" min="1" max="5" value="3">
-      </div>
-      <div class="form-row">
-        <label>Current Image:</label>
-        <img src="lava_cake.jpg" alt="lava_cake" class="form-preview-img">
-      </div>
-      <div class="form-row">
-        <label>Change Image:</label>
-        <input type="file" name="recipeImage">
-      </div>
-      <div class="form-row two-col">
-        <div>
-          <label>Ingredient 1:</label>
-          <input type="text" name="ingredient1" value="Dark Chocolate">
-        </div>
-        <div>
-          <label>Quantity:</label>
-          <input type="text" name="quantity1" value="100g">
-        </div>
-      </div>
-      <div class="form-row two-col">
-        <div>
-          <label>Ingredient 2:</label>
-          <input type="text" name="ingredient2" value="Butter">
-        </div>
-        <div>
-          <label>Quantity:</label>
-          <input type="text" name="quantity2" value="80g">
-        </div>
-      </div>
-      <div class="form-row">
-        <label>Preparation Instructions:</label>
-        <textarea name="instructions">Melt chocolate and butter, mix with eggs and sugar, fold in flour, bake 10-12 min at 220C.</textarea>
-      </div>
-      <div class="form-row">
-        <label>Common Mistakes:</label>
-        <textarea name="mistakes">Do not overbake or the center will set and lose the lava effect.</textarea>
-      </div>
-      <div class="form-btns">
-        <input type="submit" value=" Update Recipe">
-        <input type="reset" value="Reset Changes">
-      </div>
-    </form>
-
-    <hr>
-
-    <h3 id="edit-sambosa">Edit: Sambosa</h3>
-    <form action="manage-recipes.html">
-      <div class="form-row">
-        <label for="name6">Recipe Name:</label>
-        <input type="text" id="name6" name="recipeName" value="Sambosa" required>
-      </div>
-      <div class="form-row">
-        <label for="course6">Course Type:</label>
-        <select id="course6" name="course">
-          <option value="appetizers" selected>Appetizers</option>
-          <option value="main">Main Course</option>
-          <option value="dessert">Dessert</option>
-        </select>
-      </div>
-      <div class="form-row">
-        <label>Cooking Time (minutes):</label>
-        <input type="number" name="time" value="40">
-      </div>
-      <div class="form-row">
-        <label>Difficulty (1 Easy – 5 Hard):</label>
-        <input type="range" name="difficulty" min="1" max="5" value="2">
-      </div>
-      <div class="form-row">
-        <label>Current Image:</label>
-        <img src="sambosa.jpg" alt="sambosa" class="form-preview-img">
-      </div>
-      <div class="form-row">
-        <label>Change Image:</label>
-        <input type="file" name="recipeImage">
-      </div>
-      <div class="form-row two-col">
-        <div>
-          <label>Ingredient 1:</label>
-          <input type="text" name="ingredient1" value="Spring Roll Sheets">
-        </div>
-        <div>
-          <label>Quantity:</label>
-          <input type="text" name="quantity1" value="12 sheets">
-        </div>
-      </div>
-      <div class="form-row two-col">
-        <div>
-          <label>Ingredient 2:</label>
-          <input type="text" name="ingredient2" value="Ground Beef">
-        </div>
-        <div>
-          <label>Quantity:</label>
-          <input type="text" name="quantity2" value="250g">
-        </div>
-      </div>
-      <div class="form-row">
-        <label>Preparation Instructions:</label>
-        <textarea name="instructions">Cook filling, wrap in sheets, fry until golden and crispy.</textarea>
-      </div>
-      <div class="form-row">
-        <label>Common Mistakes:</label>
-        <textarea name="mistakes">Make sure filling is fully cooled before wrapping to avoid soggy sambosa.</textarea>
-      </div>
-      <div class="form-btns">
-        <input type="submit" value=" Update Recipe">
-        <input type="reset" value="Reset Changes">
-      </div>
-    </form>
-
-    <hr>
-
-    <!-- ── DELETE SECTIONS (hidden by manage.js on load) ── -->
-
-    <h2>Delete Recipe</h2>
-    <p class="delete-warning">⚠️ Warning: Deleting a recipe is permanent and cannot be undone.</p>
-
-    <div class="card table-card">
-      <table>
-        <thead>
-          <tr>
-            <th>Recipe Name</th>
-            <th>Course Type</th>
-            <th>Confirm Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr id="delete-grilled-chicken">
-            <td>Grilled Chicken</td>
-            <td>Main Course</td>
-            <td class="action-cell">
-              <a href="manage-recipes.html"><button class="btn-confirm-delete"> Yes, Delete</button></a>
-              <a href="manage-recipes.html"><button class="btn-cancel">Cancel</button></a>
-            </td>
-          </tr>
-          <tr id="delete-spaghetti-bolognese">
-            <td>Spaghetti Bolognese</td>
-            <td>Main Course</td>
-            <td class="action-cell">
-              <a href="manage-recipes.html"><button class="btn-confirm-delete"> Yes, Delete</button></a>
-              <a href="manage-recipes.html"><button class="btn-cancel"> Cancel</button></a>
-            </td>
-          </tr>
-          <tr id="delete-caesar-salad">
-            <td>Caesar Salad</td>
-            <td>Appetizer</td>
-            <td class="action-cell">
-              <a href="manage-recipes.html"><button class="btn-confirm-delete"> Yes, Delete</button></a>
-              <a href="manage-recipes.html"><button class="btn-cancel"> Cancel</button></a>
-            </td>
-          </tr>
-          <tr id="delete-alfredo-pasta">
-            <td>Chicken Alfredo Pasta</td>
-            <td>Main Course</td>
-            <td class="action-cell">
-              <a href="manage-recipes.html"><button class="btn-confirm-delete"> Yes, Delete</button></a>
-              <a href="manage-recipes.html"><button class="btn-cancel"> Cancel</button></a>
-            </td>
-          </tr>
-          <tr id="delete-lava-cake">
-            <td>Chocolate Lava Cake</td>
-            <td>Dessert</td>
-            <td class="action-cell">
-              <a href="manage-recipes.html"><button class="btn-confirm-delete"> Yes, Delete</button></a>
-              <a href="manage-recipes.html"><button class="btn-cancel"> Cancel</button></a>
-            </td>
-          </tr>
-          <tr id="delete-sambosa">
-            <td>Sambosa</td>
-            <td>Appetizer</td>
-            <td class="action-cell">
-              <a href="manage-recipes.html"><button class="btn-confirm-delete"> Yes, Delete</button></a>
-              <a href="manage-recipes.html"><button class="btn-cancel"> Cancel</button></a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
     </div>
 
   </div><!-- /manage-wrap -->
 
+  <div id="toast"></div>
+
+  <script src="shared.js"></script>
   <script src="glitter.js"></script>
-  <script src="manage.js"></script>
+  <script>
+    let currentEditId   = null;
+    let currentDeleteId = null;
+    let editImageDataURL = "";
+
+    // ── Render Table ──
+    function renderTable() {
+      const tbody   = document.getElementById('recipes-tbody');
+      const emptyMsg = document.getElementById('empty-msg');
+      const recipes = getRecipes();
+
+      if (recipes.length === 0) {
+        tbody.innerHTML = '';
+        emptyMsg.style.display = 'block';
+        return;
+      }
+      emptyMsg.style.display = 'none';
+
+      tbody.innerHTML = recipes.map(r => {
+        const badgeClass = getCourseBadgeClass(r.course);
+        return `
+          <tr data-id="${r.id}">
+            <td><img src="${r.image}" alt="${r.name}" width="80" height="60"
+                style="object-fit:cover; border-radius:10px; border:2px solid rgba(255,150,190,0.3);"
+                onerror="this.src='NewLogo.png'"></td>
+            <td style="font-weight:700; color:var(--text-dark);">${r.name}</td>
+            <td><span class="course-badge ${badgeClass}">${r.course}</span></td>
+            <td style="color:var(--text-mid);">⏱ ${r.time} min</td>
+            <td class="action-cell">
+              <button class="btn-edit" onclick="openEditPanel('${r.id}')">✏️ Edit</button>
+              <button class="btn-delete" onclick="openDeletePanel('${r.id}')">🗑️ Delete</button>
+            </td>
+          </tr>`;
+      }).join('');
+    }
+
+    // ── Edit ──
+    function openEditPanel(id) {
+      const r = getRecipeById(id);
+      if (!r) return;
+      currentEditId    = id;
+      editImageDataURL = "";
+
+      document.getElementById('edit-name').value         = r.name;
+      document.getElementById('edit-course').value       = r.course;
+      document.getElementById('edit-time').value         = r.time;
+      document.getElementById('edit-difficulty').value   = r.difficulty || 2;
+      document.getElementById('edit-instructions').value = r.description;
+      document.getElementById('edit-img-preview').src    = r.image;
+
+      document.getElementById('delete-panel').style.display = 'none';
+      document.getElementById('edit-panel').style.display   = 'block';
+      document.getElementById('edit-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function closeEditPanel() {
+      document.getElementById('edit-panel').style.display = 'none';
+      currentEditId = null;
+    }
+
+    // Image preview in edit form
+    document.getElementById('edit-image-input').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        editImageDataURL = ev.target.result;
+        document.getElementById('edit-img-preview').src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById('edit-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (!currentEditId) return;
+
+      const original = getRecipeById(currentEditId);
+      const updated  = {
+        ...original,
+        name:        document.getElementById('edit-name').value.trim(),
+        course:      document.getElementById('edit-course').value,
+        time:        parseInt(document.getElementById('edit-time').value),
+        difficulty:  parseInt(document.getElementById('edit-difficulty').value),
+        description: document.getElementById('edit-instructions').value.trim(),
+        image:       editImageDataURL || original.image,
+      };
+
+      updateRecipeInStore(updated);
+      closeEditPanel();
+      renderTable();
+      showToast(`✅ "${updated.name}" updated successfully!`);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ── Delete ──
+    function openDeletePanel(id) {
+      const r = getRecipeById(id);
+      if (!r) return;
+      currentDeleteId = id;
+
+      document.getElementById('delete-recipe-name').textContent   = r.name;
+      document.getElementById('delete-recipe-course').textContent = r.course;
+
+      document.getElementById('edit-panel').style.display   = 'none';
+      document.getElementById('delete-panel').style.display = 'block';
+      document.getElementById('delete-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function closeDeletePanel() {
+      document.getElementById('delete-panel').style.display = 'none';
+      currentDeleteId = null;
+    }
+
+    document.getElementById('confirm-delete-btn').addEventListener('click', function() {
+      if (!currentDeleteId) return;
+      const name = getRecipeById(currentDeleteId)?.name || 'Recipe';
+      deleteRecipeFromStore(currentDeleteId);
+      closeDeletePanel();
+      renderTable();
+      showToast(`🗑️ "${name}" deleted.`);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ── Course badge helper (local, for table) ──
+    // Already available from shared.js
+
+    // ── Init ──
+    renderTable();
+  </script>
 </body>
 </html>

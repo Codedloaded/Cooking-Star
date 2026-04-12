@@ -1,47 +1,17 @@
-
-// Update admin stats from shared data
+// Update admin stats from shared localStorage data
 function updateAdminStats() {
+    const recipes = getRecipes();
+    const users   = getUsers();
 
-    const recipesCount = RECIPES_DATA?.length || 0;
+    const recipesCell = document.getElementById('total-recipes');
+    const usersCell   = document.getElementById('total-users');
+    const pendingCell = document.getElementById('pending-recipes');
 
-    const recipesCell = document.getElementById("total-recipes");
-    const usersCell = document.getElementById("total-users");
-    const pendingCell = document.getElementById("pending-recipes");
-
-    if (recipesCell) {
-        recipesCell.textContent = recipesCount;
-    }
-
-    if (usersCell) {
-        usersCell.textContent = 10; // static for now
-    }
-
-    if (pendingCell) {
-        pendingCell.textContent = 0; // static for now
-    }
+    if (recipesCell) recipesCell.textContent = recipes.length;
+    if (usersCell)   usersCell.textContent   = users.length;
+    if (pendingCell) pendingCell.textContent  = 0;
 }
 
-updateAdminStats();
-
-
-// Logout system
-document.querySelector(".logout")?.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    alert("Logged out successfully 👋");
-
-    window.location.href = "login.html";
+document.addEventListener('DOMContentLoaded', () => {
+    updateAdminStats();
 });
-
-
-// Button effects for admin actions
-document.querySelectorAll(".btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-        btn.classList.add("clicked");
-
-        setTimeout(() => {
-            btn.classList.remove("clicked");
-        }, 200);
-    });
-});
-

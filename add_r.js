@@ -1,16 +1,16 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    const addBtn = document.getElementById("addIngredientBtn");
+    const addBtn    = document.getElementById("addIngredientBtn");
     const container = document.getElementById("ingredientsContainer");
     let ingredientCount = 0;
+    let uploadedImageDataURL = ""; // stores base64 of uploaded image
 
-    // ADD INGREDIENT (WITH ANIMATION)
+    // ── ADD INGREDIENT ──
     function addIngredient() {
         ingredientCount++;
 
         const row = document.createElement("div");
         row.className = "ingredient-row";
-
         row.innerHTML = `
             <div>
                 <label>Ingredient ${ingredientCount}:</label>
@@ -26,17 +26,14 @@ document.addEventListener("DOMContentLoaded", function () {
             </button>
         `;
 
-        // animation start
-        row.style.opacity = "0";
+        row.style.opacity   = "0";
         row.style.transform = "translateY(20px)";
-
         container.appendChild(row);
 
-        // animation end
         setTimeout(() => {
             row.style.transition = "all 0.3s ease";
-            row.style.opacity = "1";
-            row.style.transform = "translateY(0)";
+            row.style.opacity    = "1";
+            row.style.transform  = "translateY(0)";
         }, 10);
 
         row.querySelectorAll("input").forEach(input => {
@@ -46,108 +43,151 @@ document.addEventListener("DOMContentLoaded", function () {
         checkIngredients();
     }
 
-    // FIX NUMBERS
+    // ── FIX INGREDIENT NUMBERS AFTER REMOVAL ──
     window.fixNumbers = function () {
         const rows = document.querySelectorAll(".ingredient-row");
-
         rows.forEach((row, index) => {
-            const num = index + 1;
-            row.querySelector("label").innerText = `Ingredient ${num}:`;
+            row.querySelector("label").innerText = `Ingredient ${index + 1}:`;
         });
-
         ingredientCount = rows.length;
     };
 
-    // CHECK INGREDIENTS
+    // ── VALIDATE INGREDIENTS ──
     function checkIngredients() {
         const ingredients = document.querySelectorAll(".ingredient-input");
-        const quantities = document.querySelectorAll(".quantity-input");
-        const error = document.getElementById("ingredientError");
-
+        const quantities  = document.querySelectorAll(".quantity-input");
+        const error       = document.getElementById("ingredientError");
         let valid = false;
-
         for (let i = 0; i < ingredients.length; i++) {
             if (ingredients[i].value.trim() && quantities[i].value.trim()) {
                 valid = true;
                 break;
             }
         }
-
-        error.style.display = valid || ingredients.length === 0 ? "none" : "block";
+        error.style.display = (valid || ingredients.length === 0) ? "none" : "block";
     }
 
-    // SAVE RECIPE
+    // ── SAVE RECIPE → localStorage ──
     window.saveRecipe = function () {
         let valid = true;
 
-        const name = document.getElementById("recipeName");
-        const course = document.getElementById("courseType");
-        const time = document.getElementById("cookingTime");
-        const instructions = document.getElementById("instructions");
+        const nameEl         = document.getElementById("recipeName");
+        const courseEl       = document.getElementById("courseType");
+        const timeEl         = document.getElementById("cookingTime");
+        const instructionsEl = document.getElementById("instructions");
 
-        if (!name.value.trim()) {
+        // Clear previous errors
+        ["nameError","courseError","timeError","instructionsError"].forEach(id => {
+            document.getElementById(id).style.display = "none";
+        });
+
+        if (!nameEl.value.trim()) {
             document.getElementById("nameError").style.display = "block";
             valid = false;
         }
-
-        if (!course.value) {
+        if (!courseEl.value) {
             document.getElementById("courseError").style.display = "block";
             valid = false;
         }
-
-        if (!time.value || parseInt(time.value) < 1) {
+        if (!timeEl.value || parseInt(timeEl.value) < 1) {
             document.getElementById("timeError").style.display = "block";
             valid = false;
         }
-
-        if (!instructions.value.trim()) {
+        if (!instructionsEl.value.trim()) {
             document.getElementById("instructionsError").style.display = "block";
             valid = false;
         }
 
         if (!valid) return false;
 
-        showMessage("✅ Recipe saved!");
-        return false;
+        // ── Collect ingredients ──
+        const ingredientInputs = document.querySelectorAll(".ingredient-input");
+        const quantityInputs   = document.querySelectorAll(".quantity-input");
+        const ingredients = [];
+        ingredientInputs.forEach((inp, i) => {
+            const name = inp.value.trim();
+            const qty  = quantityInputs[i]?.value.trim();
+            if (name) ingredients.push({ name, qty: qty || "" });
+        });
+
+        // ── Build unique ID and code ──
+        const idBase  = nameEl.value.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+        const uniqueId = idBase + "-" + Date.now();
+
+        // Generate next recipe code
+        const existingRecipes = getRecipes();
+        const nextNum  = existingRecipes.length + 1;
+        const code     = "RC-" + String(nextNum).padStart(3, "0");
+
+        // ── Clean course value (strip emoji prefix if present) ──
+        const rawCourse  = courseEl.value;
+        const courseClean = rawCourse.replace(/^[^\w]+/, "").trim(); // strips leading emoji
+
+        // ── Build recipe object ──
+        const newRecipe = {
+            id:          uniqueId,
+            code:        code,
+            name:        nameEl.value.trim(),
+            course:      courseClean,
+            image:       uploadedImageDataURL || "NewLogo.png",
+            time:        parseInt(timeEl.value),
+            difficulty:  2, // default medium
+            description: instructionsEl.value.trim(),
+            mistakes:    document.getElementById("mistakes")?.value.trim() || "",
+            ingredients: ingredients
+        };
+
+        // ── Save to localStorage via shared.js ──
+        addRecipeToStore(newRecipe);
+
+        // ── Success feedback ──
+        showToast("✅ Recipe saved successfully!");
+
+        // ── Reset form ──
+        setTimeout(() => {
+            document.querySelector("form").reset();
+            container.innerHTML   = "";
+            ingredientCount       = 0;
+            uploadedImageDataURL  = "";
+            document.getElementById("imagePreview").innerHTML = "";
+        }, 300);
+
+        return false; // prevent form submission
     };
 
-    // SUCCESS MESSAGE
-    function showMessage(text) {
-        const msg = document.createElement("div");
-        msg.className = "success-toast";
-        msg.innerHTML = text;
-        document.body.appendChild(msg);
-
-        setTimeout(() => msg.remove(), 1500);
-    }
-
-    // CLEAR FORM
+    // ── CLEAR FORM ──
     window.clearForm = function () {
         setTimeout(() => {
             document.querySelector("form").reset();
-            container.innerHTML = "";
-            ingredientCount = 0;
+            container.innerHTML  = "";
+            ingredientCount      = 0;
+            uploadedImageDataURL = "";
             document.getElementById("imagePreview").innerHTML = "";
+            ["nameError","courseError","timeError","instructionsError","ingredientError"].forEach(id => {
+                document.getElementById(id).style.display = "none";
+            });
         }, 50);
     };
 
-    // IMAGE PREVIEW
+    // ── IMAGE PREVIEW + store as base64 ──
     document.getElementById("imageInput").addEventListener("change", function (e) {
         const preview = document.getElementById("imagePreview");
-        const file = e.target.files[0];
+        const file    = e.target.files[0];
 
         if (file) {
             const reader = new FileReader();
-            reader.onload = function (e) {
-                preview.innerHTML = `<img src="${e.target.result}">`;
+            reader.onload = function (ev) {
+                uploadedImageDataURL = ev.target.result; // save for recipe object
+                preview.innerHTML = `<img src="${ev.target.result}">`;
             };
             reader.readAsDataURL(file);
         } else {
-            preview.innerHTML = "";
+            uploadedImageDataURL = "";
+            preview.innerHTML    = "";
         }
     });
 
-    // BUTTON CLICK
+    // ── BUTTON CLICK ──
     addBtn.addEventListener("click", addIngredient);
 
 });

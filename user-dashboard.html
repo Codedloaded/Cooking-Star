@@ -282,11 +282,7 @@
       <img src="NewLogo.png" alt="Cooking Star Logo" class="logo-img">
     </a>
     <div class="nav-links">
-      <a href="user-dashboard.html" class="active">Home</a>
-      <a href="recipes-list.html">Recipes</a>
-      <a href="search-results.html">Search</a>
-      <a href="favorites.html">Favorites</a>
-      <a href="login.html" class="logout">Logout</a>
+      <!-- populated by buildNavbar() in shared.js -->
     </div>
   </nav>
 
@@ -325,14 +321,14 @@
 
     <!-- Filter Bar -->
     <div class="filter-bar">
-      <button class="filter-btn active" onclick="dashFilterRecipes('all', this)">All</button>
-      <button class="filter-btn" onclick="dashFilterRecipes('Main Course', this)">Main Course</button>
-      <button class="filter-btn" onclick="dashFilterRecipes('Appetizer', this)">Appetizer</button>
-      <button class="filter-btn" onclick="dashFilterRecipes('Dessert', this)">Dessert</button>
+      <button class="filter-btn active" onclick="dashFilterRecipes('all', this)">🍴 All</button>
+      <button class="filter-btn" onclick="dashFilterRecipes('Main Course', this)">🍽️ Main Course</button>
+      <button class="filter-btn" onclick="dashFilterRecipes('Appetizer', this)">🥗 Appetizer</button>
+      <button class="filter-btn" onclick="dashFilterRecipes('Dessert', this)">🍰 Dessert</button>
     </div>
 
     <!-- Section Heading -->
-    <div class="section-heading">Browse Recipes</div>
+    <div class="section-heading">🌟 Browse Recipes</div>
 
     <!-- Recipes Grid -->
     <div class="recipes-grid" id="recipes-grid"></div>

@@ -1,23 +1,57 @@
 document.getElementById('login-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email    = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
-            const role     = document.querySelector('input[name="role"]:checked').value;
-            const errorEl  = document.getElementById('login-error');
+    e.preventDefault();
 
-            const result = loginUser(email, password, role);
+    const email    = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const role     = document.querySelector('input[name="role"]:checked').value;
+    const errorEl  = document.getElementById('login-error');
 
-            if (!result.ok) {
-                errorEl.textContent = '⚠️ ' + result.error;
-                errorEl.style.display = 'block';
-                return;
-            }
+    // reset error
+    errorEl.style.display = 'none';
 
-            errorEl.style.display = 'none';
-            setSession(result.user);
-            showToast(`Welcome back, ${result.user.firstName}! 🍰`);
+    //call login api
+    fetch("http://127.0.0.1:8000/api/login/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
+    })
+    .then(async (res) => {
+        let data;
 
-            setTimeout(() => {
-                window.location.href = result.user.isAdmin ? 'admin.html' : 'user-dashboard.html';
-            }, 1000);
-        });
+        try {
+            data = await res.json();
+        } catch {
+            throw new Error("Invalid server response");
+        }
+
+        if (!res.ok) {
+            throw new Error(data.error || "Login failed");
+        }
+
+        return data;
+    })
+    .then(data => {
+        console.log(data);
+
+        alert("Login successful!");
+
+        //save user
+        localStorage.setItem("user", JSON.stringify({
+            username: data.username
+        }));
+
+        //redirect
+        window.location.href = "user-dashboard.html";
+    })
+    .catch(err => {
+        console.error(err);
+
+        errorEl.textContent = err.message;
+        errorEl.style.display = 'block';
+    });
+});

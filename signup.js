@@ -36,24 +36,49 @@
                 return;
             }
 
-            const result = registerUser({ firstName, lastName, username, email, password, role, gender });
+            // sign up api fetching
+            fetch("http://127.0.0.1:8000/api/signup/", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        username: username,
+        email: email,
+        password: password
+    })
+})
+.then(async (res) => {
+    let data;
 
-            if (!result.ok) {
-                errorEl.textContent = '⚠️ ' + result.error;
-                errorEl.style.display = 'block';
-                return;
-            }
+    try {
+        data = await res.json();
+    } catch {
+        throw new Error("Invalid server response");
+    }
 
-            errorEl.style.display = 'none';
-            clearFormDraft(); // wipe saved draft on success
+    if (!res.ok) {
+        throw new Error(data.error || "Signup failed");
+    }
 
-            // Auto-login
-            const loginResult = loginUser(email, password, role);
-            if (loginResult.ok) setSession(loginResult.user);
+    return data;
+})
+.then(data => {
+    console.log(data);
 
-            showToast(`Welcome to Cooking-Star, ${firstName}! 🎉`);
+    //success
+    errorEl.style.display = 'none';
+    clearFormDraft();
 
-            setTimeout(() => {
-                window.location.href = role === 'admin' ? 'admin.html' : 'user-dashboard.html';
-            }, 1000);
-        });
+    alert("Account created successfully!");
+    window.location.href = "login.html";
+})
+.catch(err => {
+    console.error(err);
+
+    //error msg
+    errorEl.textContent = err.message;
+    errorEl.style.display = 'block';
+});
+
+})

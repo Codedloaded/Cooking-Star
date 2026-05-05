@@ -1,0 +1,15 @@
+<h2>Create Recipe</h2>
+
+{% if form.errors %}
+    <div style="color:red;">
+        {{ form.errors }}
+    </div>
+{% endif %}
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create</button>
+</form>
+
+<a href="/recipes/">Back to list</a>

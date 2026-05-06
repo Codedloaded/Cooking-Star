@@ -40,10 +40,21 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
 
         alert("Login successful!");
 
-        //save user
-        localStorage.setItem("user", JSON.stringify({
-            username: data.username
-        }));
+        setSession({
+   username:  data.username,
+   firstName: data.firstName,
+   email:     data.email,
+   role:      data.role,     // user or admin
+   isAdmin:   data.isAdmin,
+ });
+
+ setToken(data.token);   // store the Bearer token
+
+ if (data.isAdmin) {
+   window.location.href = "admin.html";
+ } else {
+   window.location.href = "user-dashboard.html";
+}
 
         //redirect
         window.location.href = "user-dashboard.html";

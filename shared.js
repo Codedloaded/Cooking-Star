@@ -15,6 +15,28 @@
    ============================================= */
 
 
+   function getToken() {
+  return localStorage.getItem('cookingStar_token');
+}
+ 
+function setToken(token) {
+  localStorage.setItem('cookingStar_token', token);
+}
+ 
+function clearToken() {
+  localStorage.removeItem('cookingStar_token');
+}
+
+async function apiFetch(path, options = {}) {
+  const token = getToken();
+  const headers = {
+    'Content-Type': 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...(options.headers || {}),
+  };
+  const res = await fetch(`http://127.0.0.1:8000${path}`, { ...options, headers });
+  return res;
+}
 /* ═══════════════════════════════════════════
    1. STORAGE KEYS
 ═══════════════════════════════════════════ */
@@ -235,8 +257,21 @@ function setSession(user) {
   });
 }
 
-function clearSession() {
-  localStorage.removeItem(KEYS.SESSION);
+async function logoutUser() {
+  const token = getToken();
+ 
+  if (token) {
+    try {
+      // Tell the backend to invalidate the token
+      await apiFetch('/api/logout/', { method: 'POST' });
+    } catch (err) {
+      // Network error — still clear the local session
+      console.warn('Logout API error:', err);
+    }
+  }
+ 
+  clearSession();
+  clearToken();
 }
 
 function requireLogin(redirectIfAdmin) {
@@ -331,65 +366,85 @@ function clearFormDraft() {
    10. DYNAMIC NAVBAR
    Reads session → shows correct links + username
 ═══════════════════════════════════════════ */
+
 function buildNavbar() {
   const nav = document.querySelector('.nav-links');
   if (!nav) return;
-
+ 
   const session = getSession();
-
-  // Which page are we on?
-  const page = window.location.pathname.split('/').pop() || 'index.html';
-
-  const active = (href) => page === href ? 'class="active"' : '';
-  const logoutActive = (href) => page === href ? 'class="logout active"' : 'class="logout"';
-
+  const page    = window.location.pathname.split('/').pop() || 'index.html';
+  const active  = (href) => page === href ? 'class="active"' : '';
+  const logoutCls = (href) => page === href
+    ? 'class="logout active"'
+    : 'class="logout"';
+ 
   if (!session) {
-    // Guest navbar
     nav.innerHTML = `
-      <a href="index.html" ${active('index.html')}>Home</a>
-      <a href="login.html" ${active('login.html')}>Login</a>
+      <a href="index.html"  ${active('index.html')}>Home</a>
+      <a href="login.html"  ${active('login.html')}>Login</a>
       <a href="signup.html" ${active('signup.html')}>Sign Up</a>
     `;
   } else if (session.isAdmin) {
-    // Admin navbar
     nav.innerHTML = `
-      <a href="admin.html" ${active('admin.html')}>Home</a>
-      <a href="add_recipe.html" ${active('add_recipe.html')}>➕ Add Recipe</a>
+      <a href="admin.html"          ${active('admin.html')}>Home</a>
+      <a href="add_recipe.html"     ${active('add_recipe.html')}>➕ Add Recipe</a>
       <a href="manage-recipes.html" ${active('manage-recipes.html')}>Manage</a>
       <span style="font-family:'Fredoka One',sans-serif;color:var(--pink-deep);padding:8px 12px;">
-        👤 ${session.firstName}
+        👤 ${session.firstName || session.username}
       </span>
-      <a href="#" ${logoutActive('')} id="nav-logout">Logout</a>
+      <a href="#" ${logoutCls('')} id="nav-logout">Logout</a>
     `;
   } else {
-    // User navbar
     nav.innerHTML = `
       <a href="user-dashboard.html" ${active('user-dashboard.html')}>Home</a>
-      <a href="recipes-list.html" ${active('recipes-list.html')}>Recipes</a>
+      <a href="recipes-list.html"   ${active('recipes-list.html')}>Recipes</a>
       <a href="search-results.html" ${active('search-results.html')}>Search</a>
-      <a href="favorites.html" ${active('favorites.html')}>Favorites</a>
+      <a href="favorites.html"      ${active('favorites.html')}>Favorites</a>
       <span style="font-family:'Fredoka One',sans-serif;color:var(--pink-deep);padding:8px 12px;">
-        👤 ${session.firstName}
+        👤 ${session.firstName || session.username}
       </span>
-      <a href="#" ${logoutActive('')} id="nav-logout">Logout</a>
+      <a href="#" ${logoutCls('')} id="nav-logout">Logout</a>
     `;
   }
-
-  // Attach logout
-  const logoutBtn = document.getElementById('nav-logout');
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      clearSession();
-      showToast('Logged out successfully 👋');
-      setTimeout(() => { window.location.href = 'login.html'; }, 800);
-    });
-  }
 }
-
-// Auto-run navbar build on every page
+ 
 document.addEventListener('DOMContentLoaded', buildNavbar);
 
+document.addEventListener('click', async function (e) {
+  
+  const btn = e.target.closest('#nav-logout');
+  if (!btn) return;
+ 
+  e.preventDefault();
+ 
+  
+  btn.style.pointerEvents = 'none';
+  btn.textContent = 'Logging out…';
+ 
+  try {
+    const token = localStorage.getItem('cookingStar_token');
+    if (token) {
+      // CALLING LOGOUT API
+      await fetch('http://127.0.0.1:8000/api/logout/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+    }
+  } catch (err) {
+    
+    console.warn('Logout API unreachable:', err);
+  }
+ 
+  
+  localStorage.removeItem('cookingStar_session');
+  localStorage.removeItem('cookingStar_token');
+ 
+  showToast('Logged out successfully 👋');
+  setTimeout(() => { window.location.href = 'login.html'; }, 800);
+});
 
 /* ═══════════════════════════════════════════
    11. TOAST

@@ -32,6 +32,26 @@ def edit_recipe(request, id):
 
     return render(request, 'recipes/edit.html', {'form': form})
 
+
+def recipe_list(request):
+    recipes = Recipe.objects.all()
+
+    return render(request, 'recipes/list.html', {
+        'recipes': recipes
+    })
+
+
+def delete_recipe(request, id):
+    recipe = get_object_or_404(Recipe, id=id)
+
+
+    if recipe.image:
+        recipe.image.delete()
+
+    recipe.delete()
+
+    return redirect('recipe_list')
+
 @api_view(['GET'])
 def search_recipes(request):
     query = request.GET.get('q', '')
@@ -43,3 +63,4 @@ def search_recipes(request):
         recipes = recipes.filter(title__icontains=filter_by)
     serializer = RecipeSerializer(recipes, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+

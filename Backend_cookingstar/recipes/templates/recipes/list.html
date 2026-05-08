@@ -1,0 +1,42 @@
+<h1>Recipes List</h1>
+
+<a href="/recipes/create/">
+    Add New Recipe
+</a>
+
+<hr>
+
+{% for recipe in recipes %}
+
+    <div>
+
+        <h3>{{ recipe.title }}</h3>
+
+        <p>{{ recipe.description }}</p>
+
+        {% if recipe.image %}
+            <img src="{{ recipe.image.url }}" width="200">
+        {% endif %}
+
+        <br><br>
+
+        <a href="/recipes/edit/{{ recipe.id }}/">
+            Edit
+        </a>
+
+        <form action="/recipes/delete/{{ recipe.id }}/"
+              method="POST">
+
+            {% csrf_token %}
+
+            <button type="submit">
+                Delete
+            </button>
+
+        </form>
+
+        <hr>
+
+    </div>
+
+{% endfor %}

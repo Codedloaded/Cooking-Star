@@ -1,0 +1,18 @@
+<h2>Delete Recipe</h2>
+
+<p>
+    Are you sure you want to delete
+    "{{ recipe.title }}" ?
+</p>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <button type="submit">
+        Yes Delete
+    </button>
+</form>
+
+<a href="/recipes/">
+    Cancel
+</a>

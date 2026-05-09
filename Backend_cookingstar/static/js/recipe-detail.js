@@ -61,7 +61,7 @@ function renderAllRecipes() {
         <button class="btn btn-primary fav-btn" data-id="${recipe.id}">
           ${isFav ? "In Favorites" : "Add to Favorites"}
         </button>
-        <a href="recipes-list.html" class="btn btn-secondary">
+        <a href="/recipes-list/" class="btn btn-secondary">
           ← Back to Recipes
         </a>
       </div>

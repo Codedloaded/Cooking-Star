@@ -1,3 +1,5 @@
+// login.js
+
 document.getElementById('login-form').addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -6,10 +8,8 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
     const role     = document.querySelector('input[name="role"]:checked').value;
     const errorEl  = document.getElementById('login-error');
 
-    // reset error
     errorEl.style.display = 'none';
 
-    //call login api
     fetch("http://127.0.0.1:8000/api/login/", {
         method: "POST",
         headers: {
@@ -36,28 +36,24 @@ document.getElementById('login-form').addEventListener('submit', function(e) {
         return data;
     })
     .then(data => {
-        console.log(data);
 
         alert("Login successful!");
 
         setSession({
-   username:  data.username,
-   firstName: data.firstName,
-   email:     data.email,
-   role:      data.role,     // user or admin
-   isAdmin:   data.isAdmin,
- });
+            username:  data.username,
+            firstName: data.firstName,
+            email:     data.email,
+            role:      data.role,
+            isAdmin:   data.isAdmin,
+        });
 
- setToken(data.token);   // store the Bearer token
+        setToken(data.token);
 
- if (data.isAdmin) {
-   window.location.href = "admin.html";
- } else {
-   window.location.href = "user-dashboard.html";
-}
-
-        //redirect
-        window.location.href = "user-dashboard.html";
+        if (data.isAdmin) {
+            window.location.href = "/admin/";
+        } else {
+            window.location.href = "/user-dashboard/";
+        }
     })
     .catch(err => {
         console.error(err);

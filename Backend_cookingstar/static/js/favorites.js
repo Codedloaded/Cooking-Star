@@ -40,7 +40,7 @@ function loadFavoritesTable() {
       <td style="color:var(--text-mid); font-size:0.88rem; max-width:220px;">${recipe.description.substring(0, 90)}…</td>
       <td>
         <div class="action-btns">
-          <a href="recipe-detail.html#${recipe.id}" class="btn btn-primary" style="font-size:0.82rem; padding:8px 16px;">
+          <a href="/recipe-detail/#${recipe.id}" class="btn btn-primary" style="font-size:0.82rem; padding:8px 16px;">
              View
           </a>
           <button class="btn btn-danger remove-fav-btn" data-id="${recipe.id}" style="font-size:0.82rem; padding:8px 16px;">

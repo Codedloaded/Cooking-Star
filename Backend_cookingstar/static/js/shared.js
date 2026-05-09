@@ -274,16 +274,32 @@ async function logoutUser() {
   clearToken();
 }
 
+// shared.js redirects
+
 function requireLogin(redirectIfAdmin) {
   const s = getSession();
-  if (!s) { window.location.href = 'login.html'; return null; }
-  if (redirectIfAdmin && s.isAdmin) { window.location.href = 'admin.html'; return null; }
+
+  if (!s) {
+    window.location.href = '/login/';
+    return null;
+  }
+
+  if (redirectIfAdmin && s.isAdmin) {
+    window.location.href = '/admin/';
+    return null;
+  }
+
   return s;
 }
 
 function requireAdmin() {
   const s = getSession();
-  if (!s || !s.isAdmin) { window.location.href = 'login.html'; return null; }
+
+  if (!s || !s.isAdmin) {
+    window.location.href = '/login/';
+    return null;
+  }
+
   return s;
 }
 
@@ -372,38 +388,49 @@ function buildNavbar() {
   if (!nav) return;
  
   const session = getSession();
-  const page    = window.location.pathname.split('/').pop() || 'index.html';
+  const page    = window.location.pathname.split('/').pop() || 'index';
   const active  = (href) => page === href ? 'class="active"' : '';
   const logoutCls = (href) => page === href
     ? 'class="logout active"'
     : 'class="logout"';
  
+  // shared.js navbar links
+
   if (!session) {
+
     nav.innerHTML = `
-      <a href="index.html"  ${active('index.html')}>Home</a>
-      <a href="login.html"  ${active('login.html')}>Login</a>
-      <a href="signup.html" ${active('signup.html')}>Sign Up</a>
+      <a href="/index/">Home</a>
+      <a href="/login/">Login</a>
+      <a href="/signup/">Sign Up</a>
     `;
+
   } else if (session.isAdmin) {
+
     nav.innerHTML = `
-      <a href="admin.html"          ${active('admin.html')}>Home</a>
-      <a href="add_recipe.html"     ${active('add_recipe.html')}>➕ Add Recipe</a>
-      <a href="manage-recipes.html" ${active('manage-recipes.html')}>Manage</a>
+      <a href="/admin/">Home</a>
+      <a href="/add-recipe/">➕ Add Recipe</a>
+      <a href="/manage-recipes/">Manage</a>
+
       <span style="font-family:'Fredoka One',sans-serif;color:var(--pink-deep);padding:8px 12px;">
         👤 ${session.firstName || session.username}
       </span>
-      <a href="#" ${logoutCls('')} id="nav-logout">Logout</a>
+
+      <a href="#" class="logout" id="nav-logout">Logout</a>
     `;
+
   } else {
+
     nav.innerHTML = `
-      <a href="user-dashboard.html" ${active('user-dashboard.html')}>Home</a>
-      <a href="recipes-list.html"   ${active('recipes-list.html')}>Recipes</a>
-      <a href="search-results.html" ${active('search-results.html')}>Search</a>
-      <a href="favorites.html"      ${active('favorites.html')}>Favorites</a>
+      <a href="/user-dashboard/">Home</a>
+      <a href="/recipes-list/">Recipes</a>
+      <a href="/search/">Search</a>
+      <a href="/favorites/">Favorites</a>
+
       <span style="font-family:'Fredoka One',sans-serif;color:var(--pink-deep);padding:8px 12px;">
         👤 ${session.firstName || session.username}
       </span>
-      <a href="#" ${logoutCls('')} id="nav-logout">Logout</a>
+
+      <a href="#" class="logout" id="nav-logout">Logout</a>
     `;
   }
 }
@@ -443,7 +470,7 @@ document.addEventListener('click', async function (e) {
   localStorage.removeItem('cookingStar_token');
  
   showToast('Logged out successfully 👋');
-  setTimeout(() => { window.location.href = 'login.html'; }, 800);
+  setTimeout(() => { window.location.href = '/login/'; }, 800);
 });
 
 /* ═══════════════════════════════════════════

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,28 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Favorites — نجمة الطبخ</title>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="icon" type="image/png" href="{% static 'images/icon.png' %}">
 </head>
 <body>
 
-  <!-- ─── Floating Glitter Stars ─── -->
   <div id="glitter-container"></div>
-
-  <!-- ─── Chef Duo Corner ─── -->
   <div class="chef-duo-deco"></div>
 
-  <!-- ─── Navigation Bar ─── -->
   <nav class="navbar">
-    <a href="user-dashboard.html" class="logo-link">
-      <img src="NewLogo.png" alt="Chef's Logo" class="logo-img">
+    <a href="/user-dashboard/" class="logo-link">
+      <img src="{% static 'images/NewLogo.png' %}" alt="Chef's Logo" class="logo-img">
     </a>
     <div class="nav-links">
       <!-- populated by buildNavbar() in shared.js -->
     </div>
   </nav>
 
-  <!-- ─── Page Header ─── -->
   <div class="page-header">
     <h2>My Favorite Recipes</h2>
     <p>Your personal collection of delicious saves </p>
@@ -34,7 +30,6 @@
 
   <div class="container">
 
-    <!-- ─── Add to Favorites Card ─── -->
     <div class="card">
       <h3>➕ Add a Recipe to Favorites</h3>
       <form id="add-fav-form">
@@ -59,7 +54,6 @@
       </form>
     </div>
 
-    <!-- ─── My Favorites List ─── -->
     <div class="card">
       <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
         <h3 style="margin-bottom:0;"> Saved Recipes</h3>
@@ -93,8 +87,8 @@
 
   <div id="toast"></div>
 
-  <script src="shared.js"></script>
-  <script src="favorites.js"></script>
-  <script src="glitter.js"></script>
+  <script src="{% static 'js/shared.js' %}"></script>
+  <script src="{% static 'js/favorites.js' %}"></script>
+  <script src="{% static 'js/glitter.js' %}"></script>
 </body>
 </html>

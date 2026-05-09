@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,16 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up — نجمة الطبخ</title>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="login-signup.css">
-    <link rel="icon" type="image/png" href="NewLogo.png">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login-signup.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/NewLogo.png' %}">
 </head>
 <body>
     <div id="glitter-container"></div>
 
     <nav class="navbar">
-        <a href="index.html" class="logo-link">
-            <img src="NewLogo.png" alt="نجمة الطبخ" class="logo-img">
+        <a href="/" class="logo-link">
+            <img src="{% static 'images/NewLogo.png' %}" alt="نجمة الطبخ" class="logo-img">
         </a>
         <div class="nav-links">
             <!-- built by buildNavbar() in shared.js -->
@@ -87,7 +88,7 @@
                 </button>
 
                 <p class="auth-footer">
-                    Already have an account? <a href="login.html">Login here</a>
+                    Already have an account? <a href="/login/">Login here</a>
                 </p>
             </form>
         </div>
@@ -95,8 +96,8 @@
 
     <div id="toast"></div>
 
-    <script src="shared.js"></script>
-    <script src="signup.js"></script>
-    <script src="glitter.js"></script>
+    <script src="{% static 'js/shared.js' %}"></script>
+    <script src="{% static 'js/signup.js' %}"></script>
+    <script src="{% static 'js/glitter.js' %}"></script>
 </body>
 </html>

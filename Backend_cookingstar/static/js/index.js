@@ -1,7 +1,10 @@
-// Button click animation with proper navigation timing
+// index.js
+
 document.querySelectorAll(".center-page .btn").forEach(btn => {
+
     btn.addEventListener("click", function (e) {
-        e.preventDefault(); // hold navigation until animation finishes
+
+        e.preventDefault();
 
         const target = this.getAttribute("href");
 
@@ -16,4 +19,5 @@ document.querySelectorAll(".center-page .btn").forEach(btn => {
             window.location.href = target;
         }, 200);
     });
+
 });

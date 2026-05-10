@@ -67,8 +67,8 @@ document.addEventListener("DOMContentLoaded", function () {
         error.style.display = (valid || ingredients.length === 0) ? "none" : "block";
     }
 
-    // ── SAVE RECIPE → localStorage ──
-    window.saveRecipe = function () {
+    // ── SAVE RECIPE ──
+    window.saveRecipe = async function () {
         let valid = true;
 
         const nameEl         = document.getElementById("recipeName");
@@ -110,38 +110,13 @@ document.addEventListener("DOMContentLoaded", function () {
             if (name) ingredients.push({ name, qty: qty || "" });
         });
 
-        // ── Build unique ID and code ──
-        const idBase  = nameEl.value.trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
-        const uniqueId = idBase + "-" + Date.now();
-
-        // Generate next recipe code
-        const existingRecipes = getRecipes();
-        const nextNum  = existingRecipes.length + 1;
-        const code     = "RC-" + String(nextNum).padStart(3, "0");
-
-        // ── Clean course value (strip emoji prefix if present) ──
-        const rawCourse  = courseEl.value;
-        const courseClean = rawCourse.replace(/^[^\w]+/, "").trim(); // strips leading emoji
-
-        // ── Build recipe object ──
-        const newRecipe = {
-            id:          uniqueId,
-            code:        code,
-            name:        nameEl.value.trim(),
-            course:      courseClean,
-            image:       uploadedImageDataURL || "NewLogo.png",
-            time:        parseInt(timeEl.value),
-            difficulty:  2, // default medium
-            description: instructionsEl.value.trim(),
-            mistakes:    document.getElementById("mistakes")?.value.trim() || "",
-            ingredients: ingredients
-        };
-
-        // ── Save to localStorage via shared.js ──
-        addRecipeToStore(newRecipe);
-
-        // ── Success feedback ──
-        showToast("✅ Recipe saved successfully!");
+        const courseClean = courseEl.value.replace(/^[^\w]+/, "").trim();
+        const imageFile = document.getElementById("imageInput").files[0] || null;
+        const recipeData = { title: nameEl.value.trim(), course: courseClean, time_minutes: parseInt(timeEl.value), difficulty: 2, description: instructionsEl.value.trim(), instructions: instructionsEl.value.trim(), ingredients: JSON.stringify(ingredients), };
+        const res = await createRecipe(recipeData, imageFile); if (res.ok || res.status === 201) { showToast("✅ Recipe saved successfully!");
+        
+         }
+        else { const err = await res.json().catch(() => ({})); showToast("❌ " + (err.error || "Could not save recipe.")); return false; }
 
         // ── Reset form ──
         setTimeout(() => {

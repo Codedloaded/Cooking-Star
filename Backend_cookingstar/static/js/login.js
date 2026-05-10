@@ -39,11 +39,7 @@ document.getElementById('login-form').addEventListener('submit', async function 
 
         // Redirect based on role
         // FIX: admin redirect now goes to /admin-dashboard/, not /admin/
-        if (data.isAdmin) {
-            window.location.href = '/admin-dashboard/';
-        } else {
-            window.location.href = '/user-dashboard/';
-        }
+        if (data.isAdmin) { window.location.href = '/admin-dashboard/'; } else { window.location.href = '/user-dashboard/'; }
 
     } catch (err) {
         console.error(err);

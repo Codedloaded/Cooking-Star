@@ -31,7 +31,7 @@
 
   <div class="container">
     <div class="card">
-      <form onsubmit="return saveRecipe()">
+      <form id="recipe-form">
 
         <div class="form-section">
           <h3>🍽️ Recipe Information</h3>
@@ -95,8 +95,8 @@
         </div>
 
         <div class="btn-group">
-          <input type="submit" value="Save Recipe">
-          <input type="reset" value="Clear Form" onclick="clearForm()">
+          <button type="button" onclick="saveRecipe()">Save Recipe</button>
+          <button type="button" onclick="clearForm()">Clear Form</button>
         </div>
 
       </form>

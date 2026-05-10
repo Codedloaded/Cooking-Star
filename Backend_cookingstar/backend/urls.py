@@ -21,7 +21,7 @@ urlpatterns = [
     path('signup/',         TemplateView.as_view(template_name='signup.html')),
     path('user-dashboard/', TemplateView.as_view(template_name='user-dashboard.html')),
     path('admin-dashboard/', TemplateView.as_view(template_name='admin.html')),
-    path('recipes-list/',   TemplateView.as_view(template_name='recipes-list.html')),
+    path('recipes/',   TemplateView.as_view(template_name='recipes-list.html')),
     # FIX: was "templpate_name" (typo with extra 'p') — fixed to template_name
     path('favorites/',      TemplateView.as_view(template_name='favorites.html')),
     path('search/',         TemplateView.as_view(template_name='search-results.html')),

@@ -379,7 +379,18 @@ function buildNavbar() {
   const nav = document.querySelector('.nav-links');
   if (!nav) return;
 
+  const page = window.location.pathname;
   const session = getSession();
+
+  // Index page always shows guest links regardless of session
+  if (page === '/' || page === '/index/' || page === '/login/' || page === '/signup/') {
+    nav.innerHTML = `
+      <a href="/">Home</a>
+      <a href="/login/">Login</a>
+      <a href="/signup/">Sign Up</a>
+    `;
+    return;
+  }
 
   if (!session) {
     nav.innerHTML = `
@@ -400,7 +411,7 @@ function buildNavbar() {
   } else {
     nav.innerHTML = `
       <a href="/user-dashboard/">Home</a>
-      <a href="/recipes-list/">Recipes</a>
+      <a href="/recipes/">Recipes</a>
       <a href="/search/">Search</a>
       <a href="/favorites/">Favorites</a>
       <span style="font-family:'Fredoka One',sans-serif;color:var(--pink-deep);padding:8px 12px;">

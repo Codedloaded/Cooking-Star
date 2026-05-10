@@ -1,11 +1,9 @@
-// login.js
-
 document.getElementById('login-form').addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    const email    = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    const errorEl  = document.getElementById('login-error');
+    const email      = document.getElementById('email').value.trim();
+    const password   = document.getElementById('password').value;
+    const errorEl    = document.getElementById('login-error');
 
     errorEl.style.display = 'none';
 
@@ -27,7 +25,22 @@ document.getElementById('login-form').addEventListener('submit', async function 
 
         if (!res.ok) throw new Error(data.error || 'Login failed');
 
-        // Persist session and token
+        // Check selected role matches actual role from database
+        const selectedRole = document.querySelector('input[name="role"]:checked').value;
+
+        if (selectedRole === 'admin' && !data.isAdmin) {
+            errorEl.textContent = '⚠️ These credentials do not belong to an admin account.';
+            errorEl.style.display = 'block';
+            return;
+        }
+
+        if (selectedRole === 'user' && data.isAdmin) {
+            errorEl.textContent = '⚠️ These credentials belong to an admin account. Please select Admin.';
+            errorEl.style.display = 'block';
+            return;
+        }
+
+        // Role matches — save session and redirect
         setSession({
             username:  data.username,
             firstName: data.firstName,
@@ -37,9 +50,11 @@ document.getElementById('login-form').addEventListener('submit', async function 
         });
         setToken(data.token);
 
-        // Redirect based on role
-        // FIX: admin redirect now goes to /admin-dashboard/, not /admin/
-        if (data.isAdmin) { window.location.href = '/admin-dashboard/'; } else { window.location.href = '/user-dashboard/'; }
+        if (data.isAdmin) {
+            window.location.href = '/admin-dashboard/';
+        } else {
+            window.location.href = '/user-dashboard/';
+        }
 
     } catch (err) {
         console.error(err);

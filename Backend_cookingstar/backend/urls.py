@@ -28,6 +28,7 @@ urlpatterns = [
     path('add-recipe/',     TemplateView.as_view(template_name='add_recipe.html')),
     path('manage-recipes/', TemplateView.as_view(template_name='manage-recipes.html')),
     path('recipe-detail/',  TemplateView.as_view(template_name='recipe-detail.html')),
+    path('profile/',        TemplateView.as_view(template_name='profile.html')),
 ]
 
 # ── Serve media uploads in development ────────────────────────────────────────

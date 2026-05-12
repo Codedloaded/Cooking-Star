@@ -1,124 +1,261 @@
 /* =============================================
-   نجمة الطبخ — Cooking Star | Recipe Detail JS
-   Phase 2 — Recipe Detail Page Logic
+   Cooking Star | Recipe Detail JS
+   Phase 2 — Recipe Detail Page Logic (API Integrated)
    ============================================= */
 
-document.addEventListener("DOMContentLoaded", () => {
-  renderAllRecipes();
-  buildJumpNav();
+document.addEventListener("DOMContentLoaded", async () => {
+  // 1. Force setup storage functions to avoid conflicts with shared.js
+  setupFavoritesFunctions();
+
+  // 2. Execute remaining rendering and UI functions
+  await fetchAndRenderRecipes();
   highlightCurrentHash();
   updateAllFavButtons();
+  spawnGlitterStars();
 });
 
-// ─── Render All Recipe Cards ───
-function renderAllRecipes() {
+// --- Setup Local Storage & Toast Functions ---
+function setupFavoritesFunctions() {
+
+  // Toast function (feedback message)
+  window.showToast = function(message, duration = 2800) {
+    let toast = document.getElementById("toast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "toast";
+      document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), duration);
+  };
+
+  // Favorites functions (Forced to override any existing ones)
+  window.isFavorite = function(id) {
+    try {
+      const favs = JSON.parse(localStorage.getItem("cookingStar_favorites") || "[]");
+      // Convert all items to String before checking to avoid type mismatch (e.g. 3 vs "3")
+      return favs.map(String).includes(String(id));
+    } catch(e) { return false; }
+  };
+
+  window.addFavorite = function(id) {
+    let favs = JSON.parse(localStorage.getItem("cookingStar_favorites") || "[]");
+    favs = favs.map(String); // Unify array type
+    if (!favs.includes(String(id))) {
+      favs.push(String(id));
+      localStorage.setItem("cookingStar_favorites", JSON.stringify(favs));
+      return true;
+    }
+    return false;
+  };
+
+  window.removeFavorite = function(id) {
+    let favs = JSON.parse(localStorage.getItem("cookingStar_favorites") || "[]");
+    // Filter based on String type to delete the correct item
+    favs = favs.filter(fid => String(fid) !== String(id));
+    localStorage.setItem("cookingStar_favorites", JSON.stringify(favs));
+  };
+}
+
+// --- Helper: Get CSRF Token from cookies (required for Django POST/DELETE requests) ---
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+    document.cookie.split(';').forEach(cookie => {
+      const c = cookie.trim();
+      if (c.startsWith(name + '=')) {
+        cookieValue = decodeURIComponent(c.slice(name.length + 1));
+      }
+    });
+  }
+  return cookieValue;
+}
+
+// --- Fetch from Django API & Render ---
+async function fetchAndRenderRecipes() {
   const container = document.getElementById("recipes-container");
+  const nav = document.getElementById("jump-nav");
+
   if (!container) return;
 
-  container.innerHTML = "";
+  container.innerHTML = "<p style='text-align:center;'>Loading recipes from database...</p>";
 
-  RECIPES_DATA.forEach((recipe, index) => {
-    const isFav = isFavorite(recipe.id);
-    const badgeClass = getCourseBadgeClass(recipe.course);
+  try {
+    const response = await fetch('/api/recipes/');
+    if (!response.ok) throw new Error("Network response was not ok");
 
-    const card = document.createElement("div");
-    card.className = "recipe-card";
-    card.id = recipe.id;
-    card.style.animationDelay = `${index * 0.07}s`;
+    const recipesData = await response.json();
 
-    const ingredientChips = recipe.ingredients.map(ing =>
-      `<span class="ingredient-chip">🥄 <strong>${ing.name}</strong> — ${ing.qty}</span>`
-    ).join("");
+    container.innerHTML = "";
+    if (nav) nav.innerHTML = "";
 
-    card.innerHTML = `
-      <div class="recipe-card-header">
-        <img src="${recipe.image}" alt="${recipe.name}" class="recipe-card-img"
-             onerror="this.src='../images/logo.jpg'">
-        <div class="recipe-card-meta">
-          <div class="recipe-id">${recipe.code}</div>
-          <h3>${recipe.name}</h3>
-          <div class="recipe-meta-row">
-            <span class="course-badge ${badgeClass}">${recipe.course}</span>
-            <span class="recipe-meta-tag">⏱ ${recipe.time} min</span>
-            <span class="recipe-meta-tag">Difficulty: ${difficultyStars(recipe.difficulty)}</span>
+    if (recipesData.length === 0) {
+      container.innerHTML = "<p style='text-align:center;'>No recipes found.</p>";
+      return;
+    }
+
+    recipesData.forEach((recipe, index) => {
+      const id = recipe.id;
+      const title = recipe.title || recipe.name || "Unnamed Recipe";
+      const course = recipe.course || "Main Course";
+      const image = recipe.image || "/static/images/default.jpg";
+      const time = recipe.time || "30";
+      const difficulty = recipe.difficulty || 3;
+      const description = recipe.description || recipe.instructions || "No instructions provided.";
+
+      let ingredientChips = "";
+      if (Array.isArray(recipe.ingredients)) {
+        ingredientChips = recipe.ingredients.map(ing =>
+          `<span class="ingredient-chip">🥄 <strong>${ing.name || ing}</strong> ${ing.qty ? '— ' + ing.qty : ''}</span>`
+        ).join("");
+      } else if (typeof recipe.ingredients === 'string' && recipe.ingredients.trim() !== '') {
+        ingredientChips = `<span class="ingredient-chip">🥄 ${recipe.ingredients}</span>`;
+      } else {
+        ingredientChips = `<span class="ingredient-chip">🥄 Ingredients not listed yet.</span>`;
+      }
+
+      // Build Jump Navigation
+      if (nav) {
+        const a = document.createElement("a");
+        a.href = `#${id}`;
+        a.textContent = title;
+        nav.appendChild(a);
+      }
+
+      // Check Favorite Status directly using the newly defined function
+      const isFav = window.isFavorite(id);
+
+      let badgeClass = "badge-main";
+      if (course.toLowerCase() === "appetizer") badgeClass = "badge-appetizer";
+      if (course.toLowerCase() === "dessert") badgeClass = "badge-dessert";
+
+      const starsStr = typeof window.difficultyStars === 'function' ? window.difficultyStars(difficulty) : '⭐'.repeat(difficulty);
+
+      const card = document.createElement("div");
+      card.className = "recipe-card";
+      card.id = id;
+      card.style.animationDelay = `${index * 0.07}s`;
+
+      // Set initial button class based on favorite state
+      const btnClass = isFav ? "btn-green" : "btn-primary";
+      const btnText = isFav ? "⭐ In Favorites" : "Add to Favorites";
+
+      card.innerHTML = `
+        <div class="recipe-card-header">
+          <img src="${image}" alt="${title}" class="recipe-card-img" onerror="this.src='/static/images/default.jpg'">
+          <div class="recipe-card-meta">
+            <div class="recipe-id">#${id}</div>
+            <h3>${title}</h3>
+            <div class="recipe-meta-row">
+              <span class="course-badge ${badgeClass}">${course}</span>
+              <span class="recipe-meta-tag">⏱ ${time} min</span>
+              <span class="recipe-meta-tag">Difficulty: ${starsStr}</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="recipe-ingredients">
-        <h4>🧂 Ingredients</h4>
-        <div class="ingredients-grid">
-          ${ingredientChips}
+        <div class="recipe-ingredients">
+          <h4>🧂 Ingredients</h4>
+          <div class="ingredients-grid">
+            ${ingredientChips}
+          </div>
         </div>
-      </div>
 
-      <div class="recipe-description">
-        <h4>📋 Instructions</h4>
-        <p>${recipe.description}</p>
-      </div>
+        <div class="recipe-description">
+          <h4>📋 Instructions</h4>
+          <p>${description}</p>
+        </div>
 
-      <div class="recipe-actions">
-        <button class="btn btn-primary fav-btn" data-id="${recipe.id}">
-          ${isFav ? "In Favorites" : "Add to Favorites"}
-        </button>
-        <a href="/recipes-list/" class="btn btn-secondary">
-          ← Back to Recipes
-        </a>
-      </div>
-    `;
+        <div class="recipe-actions">
+          <button class="btn ${btnClass} fav-btn" data-id="${id}">
+            ${btnText}
+          </button>
+          <a href="/user-dashboard/" class="btn btn-secondary">
+            ← Back to Recipes
+          </a>
+        </div>
+      `;
 
-    container.appendChild(card);
-  });
+      container.appendChild(card);
+    });
 
-  // Attach favorite button listeners
-  document.querySelectorAll(".fav-btn").forEach(btn => {
-    btn.addEventListener("click", handleFavToggle);
-  });
-}
+    // Bind click events to Favorite buttons after cards are rendered
+    document.querySelectorAll(".fav-btn").forEach(btn => {
+      btn.addEventListener("click", handleFavToggle);
+    });
 
-// ─── Build Jump Navigation ───
-function buildJumpNav() {
-  const nav = document.getElementById("jump-nav");
-  if (!nav) return;
-
-  nav.innerHTML = "";
-  RECIPES_DATA.forEach(recipe => {
-    const a = document.createElement("a");
-    a.href = `#${recipe.id}`;
-    a.textContent = recipe.name;
-    nav.appendChild(a);
-  });
-}
-
-// ─── Handle Favorite Toggle ───
-function handleFavToggle(e) {
-  const btn = e.currentTarget;
-  const id = btn.dataset.id;
-
-  if (isFavorite(id)) {
-    removeFavorite(id);
-    btn.textContent = "Add to Favorites";
-    btn.classList.remove("btn-green");
-    btn.classList.add("btn-primary");
-    showToast(" Removed from favorites!");
-  } else {
-    addFavorite(id);
-    btn.textContent = " In Favorites";
-    btn.classList.remove("btn-primary");
-    btn.classList.add("btn-green");
-    showToast("Added to favorites!");
+  } catch (error) {
+    console.error("Error fetching recipes:", error);
+    container.innerHTML = "<p style='text-align:center; color:red;'>Error loading recipes from the database.</p>";
   }
 }
 
-// ─── Highlight current hash on load ───
+// --- Handle Favorite Toggle (saves to both API and localStorage) ---
+async function handleFavToggle(e) {
+  e.preventDefault();
+  const btn = e.currentTarget;
+  const id = btn.dataset.id;
+
+  if (window.isFavorite(id)) {
+    // --- Remove from favorites ---
+    try {
+      const res = await fetch(`/api/favorites/${id}/`, {
+        method: 'DELETE',
+        headers: {
+          'X-CSRFToken': getCookie('csrftoken'),
+          'Content-Type': 'application/json',
+        }
+      });
+      if (!res.ok) throw new Error("Failed to remove from favorites");
+    } catch (err) {
+      console.error("Error removing favorite:", err);
+      window.showToast("Something went wrong. Please try again.");
+      return;
+    }
+
+    window.removeFavorite(id);
+    btn.textContent = "Add to Favorites";
+    btn.classList.remove("btn-green");
+    btn.classList.add("btn-primary");
+    window.showToast("Removed from favorites!");
+
+  } else {
+    // --- Add to favorites ---
+    try {
+      const res = await fetch(`/api/favorites/`, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': getCookie('csrftoken'),
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ recipe_id: id })
+      });
+      if (!res.ok) throw new Error("Failed to add to favorites");
+    } catch (err) {
+      console.error("Error adding favorite:", err);
+      window.showToast("Something went wrong. Please try again.");
+      return;
+    }
+
+    window.addFavorite(id);
+    btn.textContent = "⭐ In Favorites";
+    btn.classList.remove("btn-primary");
+    btn.classList.add("btn-green");
+    window.showToast("Added to favorites!");
+  }
+}
+
+// --- Highlight Current Hash ---
 function highlightCurrentHash() {
   if (!window.location.hash) return;
   const id = window.location.hash.replace("#", "");
   const el = document.getElementById(id);
+
   if (el) {
     setTimeout(() => {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
-      el.style.outline = "3px solid var(--pink-accent)";
+      el.style.outline = "3px solid var(--pink-accent, #ff007f)";
       el.style.outlineOffset = "4px";
       el.style.borderRadius = "20px";
       setTimeout(() => { el.style.outline = ""; }, 1800);
@@ -126,30 +263,37 @@ function highlightCurrentHash() {
   }
 }
 
-// ─── Sync fav button states from localStorage ───
+// --- Sync Favorite Buttons ---
 function updateAllFavButtons() {
   document.querySelectorAll(".fav-btn").forEach(btn => {
     const id = btn.dataset.id;
-    if (isFavorite(id)) {
-      btn.textContent = " In Favorites";
+    if (window.isFavorite(id)) {
+      btn.textContent = "⭐ In Favorites";
       btn.classList.remove("btn-primary");
       btn.classList.add("btn-green");
     }
   });
 }
-const STARS = ['✦','✧','★','☆','✨','💫','⭐','🌟','🥄','🍕','🍭','🍩', '🍪','🍇','🍓','🍒','🍫','🍴','🍧','🌶️'];
-    const container = document.getElementById('glitter-container');
-    function spawnStar() {
-      const el = document.createElement('div');
-      el.className = 'glitter-star';
-      el.textContent = STARS[Math.floor(Math.random() * STARS.length)];
-      el.style.left = Math.random() * 100 + 'vw';
-      el.style.fontSize = (0.6 + Math.random() * 1.4) + 'rem';
-      el.style.animationDuration = (5 + Math.random() * 8) + 's';
-      el.style.animationDelay = (Math.random() * 3) + 's';
-      el.style.color = ['#ff5c8a','#ffd700','#ff007f','#ffb347','#ff99bb','#fff176'][Math.floor(Math.random()*6)];
-      container.appendChild(el);
-      setTimeout(() => el.remove(), 14000);
-    }
-    setInterval(spawnStar, 600);
-    for(let i=0;i<12;i++) setTimeout(spawnStar, i*200);
+
+// --- Glitter Stars Animation ---
+function spawnGlitterStars() {
+  const STARS = ['✦','✧','★','☆','✨','💫','⭐','🌟','🥄','🍕','🍭','🍩', '🍪','🍇','🍓','🍒','🍫','🍴','🍧','🌶️'];
+  const container = document.getElementById('glitter-container');
+  if (!container) return;
+
+  function spawnStar() {
+    const el = document.createElement('div');
+    el.className = 'glitter-star';
+    el.textContent = STARS[Math.floor(Math.random() * STARS.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.fontSize = (0.6 + Math.random() * 1.4) + 'rem';
+    el.style.animationDuration = (5 + Math.random() * 8) + 's';
+    el.style.animationDelay = (Math.random() * 3) + 's';
+    el.style.color = ['#ff5c8a','#ffd700','#ff007f','#ffb347','#ff99bb','#fff176'][Math.floor(Math.random()*6)];
+    container.appendChild(el);
+    setTimeout(() => el.remove(), 14000);
+  }
+
+  setInterval(spawnStar, 600);
+  for(let i=0; i<12; i++) setTimeout(spawnStar, i*200);
+}

@@ -6,8 +6,6 @@ from .serializers import RecipeSerializer
 from users.models import AuthToken
 
 
-# ── Auth helper (same pattern as users/views.py) ──────────────────────────────
-
 def _get_user_from_token(request):
     auth = request.headers.get('Authorization', '')
     if not auth.startswith('Bearer '):
@@ -19,22 +17,21 @@ def _get_user_from_token(request):
         return None
 
 
-# ── GET  /api/recipes/        — list all recipes
-# ── POST /api/recipes/        — create a recipe (auth required)
-
 @api_view(['GET', 'POST'])
 def recipe_list(request):
 
     if request.method == 'GET':
-        # Public — anyone can browse recipes
-        search = request.query_params.get('search', '').strip()
-        course = request.query_params.get('course', '').strip()
+        search   = request.query_params.get('search',   '').strip()
+        course   = request.query_params.get('course',   '').strip()
+        category = request.query_params.get('category', '').strip()
 
         qs = Recipe.objects.all().order_by('-created_at')
         if search:
             qs = qs.filter(title__icontains=search)
         if course:
             qs = qs.filter(course__iexact=course)
+        if category:
+            qs = qs.filter(category__iexact=category)
 
         serializer = RecipeSerializer(qs, many=True, context={'request': request})
         return Response(serializer.data)
@@ -51,10 +48,6 @@ def recipe_list(request):
     return Response(serializer.errors, status=400)
 
 
-# ── GET    /api/recipes/<id>/  — retrieve one recipe
-# ── PUT    /api/recipes/<id>/  — update (owner or admin)
-# ── DELETE /api/recipes/<id>/  — delete (owner or admin)
-
 @api_view(['GET', 'PUT', 'DELETE'])
 def recipe_detail(request, pk):
     recipe = get_object_or_404(Recipe, pk=pk)
@@ -63,12 +56,10 @@ def recipe_detail(request, pk):
         serializer = RecipeSerializer(recipe, context={'request': request})
         return Response(serializer.data)
 
-    # Write operations require auth
     user = _get_user_from_token(request)
     if user is None:
         return Response({'error': 'Authentication required'}, status=401)
 
-    # Only the author or an admin can edit/delete
     if recipe.author != user and not user.is_staff:
         return Response({'error': 'Permission denied'}, status=403)
 
@@ -79,12 +70,9 @@ def recipe_detail(request, pk):
             return Response(serializer.data)
         return Response(serializer.errors, status=400)
 
-    # DELETE
     recipe.delete()
     return Response({'message': 'Recipe deleted'}, status=204)
 
-
-# ── GET /api/recipes/stats/  — admin dashboard counts
 
 @api_view(['GET'])
 def recipe_stats(request):

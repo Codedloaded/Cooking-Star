@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from .models import Recipe
 from .serializers import RecipeSerializer
 from users.models import AuthToken
+from django.db.models import Q
 
 
 def _get_user_from_token(request):
@@ -27,7 +28,13 @@ def recipe_list(request):
 
         qs = Recipe.objects.all().order_by('-created_at')
         if search:
-            qs = qs.filter(title__icontains=search)
+         qs = qs.filter(
+        Q(title__icontains=search) |
+        Q(description__icontains=search) |
+        Q(course__icontains=search) |
+        Q(category__icontains=search)
+    )
+            
         if course:
             qs = qs.filter(course__iexact=course)
         if category:

@@ -91,7 +91,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Where `collectstatic` writes files for production
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # ── Media files (user-uploaded images) ────────────────────────────────────────
 # FIX: was completely missing — needed for Recipe.image (ImageField)

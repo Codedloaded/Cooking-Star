@@ -82,7 +82,7 @@ async function fetchAndRenderRecipes() {
   container.innerHTML = "<p style='text-align:center;'>Loading recipes from database...</p>";
 
   try {
-    const response = await fetch('/api/recipes/');
+    const response = await apiFetch('/api/recipes/');
     if (!response.ok) throw new Error("Network response was not ok");
 
     const recipesData = await response.json();
@@ -105,12 +105,19 @@ async function fetchAndRenderRecipes() {
       const description = recipe.description || recipe.instructions || "No instructions provided.";
 
       let ingredientChips = "";
-      if (Array.isArray(recipe.ingredients)) {
-        ingredientChips = recipe.ingredients.map(ing =>
-          `<span class="ingredient-chip">🥄 <strong>${ing.name || ing}</strong> ${ing.qty ? '— ' + ing.qty : ''}</span>`
+
+      // Use ingredients_list (API field name) with fallback to ingredients
+      let rawIngredients = recipe.ingredients_list || recipe.ingredients || [];
+
+      // If it arrived as a JSON string e.g. '["flour","sugar"]', parse it
+      if (typeof rawIngredients === 'string') {
+        try { rawIngredients = JSON.parse(rawIngredients); } catch { rawIngredients = [rawIngredients]; }
+      }
+
+      if (Array.isArray(rawIngredients) && rawIngredients.length > 0) {
+        ingredientChips = rawIngredients.map(ing =>
+        `<span class="ingredient-chip">🥄 <strong>${ing.name || ing}</strong>${ing.qty ? ' — ' + ing.qty : ''}</span>`
         ).join("");
-      } else if (typeof recipe.ingredients === 'string' && recipe.ingredients.trim() !== '') {
-        ingredientChips = `<span class="ingredient-chip">🥄 ${recipe.ingredients}</span>`;
       } else {
         ingredientChips = `<span class="ingredient-chip">🥄 Ingredients not listed yet.</span>`;
       }
@@ -143,7 +150,7 @@ async function fetchAndRenderRecipes() {
 
       card.innerHTML = `
         <div class="recipe-card-header">
-          <img src="${image}" alt="${title}" class="recipe-card-img" onerror="this.src='/static/images/default.jpg'">
+          <img src="${image}" alt="${title}" class="recipe-card-img" onerror="if(!this.dataset.errored){this.dataset.errored='1';this.src='/static/images/NewLogo.png';}">
           <div class="recipe-card-meta">
             <div class="recipe-id">#${id}</div>
             <h3>${title}</h3>
@@ -197,20 +204,16 @@ async function handleFavToggle(e) {
   const btn = e.currentTarget;
   const id = btn.dataset.id;
 
+  // Disable button while request is in flight
+  btn.disabled = true;
+
   if (window.isFavorite(id)) {
     // --- Remove from favorites ---
-    try {
-      const res = await fetch(`/api/favorites/${id}/`, {
-        method: 'DELETE',
-        headers: {
-          'X-CSRFToken': getCookie('csrftoken'),
-          'Content-Type': 'application/json',
-        }
-      });
-      if (!res.ok) throw new Error("Failed to remove from favorites");
-    } catch (err) {
-      console.error("Error removing favorite:", err);
+    const res = await apiFetch(`/api/favorites/${id}/`, { method: 'DELETE' });
+
+    if (!res.ok && res.status !== 204) {
       window.showToast("Something went wrong. Please try again.");
+      btn.disabled = false;
       return;
     }
 
@@ -222,19 +225,14 @@ async function handleFavToggle(e) {
 
   } else {
     // --- Add to favorites ---
-    try {
-      const res = await fetch(`/api/favorites/`, {
-        method: 'POST',
-        headers: {
-          'X-CSRFToken': getCookie('csrftoken'),
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ recipe_id: id })
-      });
-      if (!res.ok) throw new Error("Failed to add to favorites");
-    } catch (err) {
-      console.error("Error adding favorite:", err);
+    const res = await apiFetch('/api/favorites/', {
+      method: 'POST',
+      body: JSON.stringify({ recipe_id: id }),
+    });
+
+    if (!res.ok) {
       window.showToast("Something went wrong. Please try again.");
+      btn.disabled = false;
       return;
     }
 
@@ -244,6 +242,8 @@ async function handleFavToggle(e) {
     btn.classList.add("btn-green");
     window.showToast("Added to favorites!");
   }
+
+  btn.disabled = false;
 }
 
 // --- Highlight Current Hash ---

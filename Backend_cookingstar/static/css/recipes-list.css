@@ -184,3 +184,44 @@
         transform: translateY(0);
     }
 }
+
+/* ── Extra styles for enriched card body ─────────────────────────── */
+.recipe-card-desc {
+    font-size: 0.85rem;
+    color: var(--text-mid, #777);
+    line-height: 1.45;
+    margin: 0;
+}
+
+.recipe-card-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.meta-chip {
+    font-size: 0.75rem;
+    font-family: 'Fredoka One', sans-serif;
+    background: rgba(255, 150, 190, 0.12);
+    color: var(--pink-deep, #c0007a);
+    border-radius: var(--border-pill, 999px);
+    padding: 3px 10px;
+    white-space: nowrap;
+}
+
+.btn-sm {
+    font-size: 0.82rem;
+    padding: 6px 14px;
+}
+
+/* course badge on image */
+.course-badge {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 0.78rem;
+    background: rgba(255,255,255,0.88);
+    color: var(--pink-deep, #c0007a);
+    border-radius: var(--border-pill, 999px);
+    padding: 4px 12px;
+    backdrop-filter: blur(4px);
+}

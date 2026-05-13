@@ -28,13 +28,13 @@ def recipe_list(request):
 
         qs = Recipe.objects.all().order_by('-created_at')
         if search:
-         qs = qs.filter(
-        Q(title__icontains=search) |
-        Q(description__icontains=search) |
-        Q(course__icontains=search) |
-        Q(category__icontains=search)
-    )
-            
+            qs = qs.filter(
+                Q(title__icontains=search) |
+                Q(description__icontains=search) |
+                Q(course__icontains=search) |
+                Q(category__icontains=search)
+            )
+
         if course:
             qs = qs.filter(course__iexact=course)
         if category:

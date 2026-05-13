@@ -401,7 +401,7 @@ function buildNavbar() {
   } else if (session.isAdmin) {
     nav.innerHTML = `
       <a href="/admin-dashboard/">Home</a>
-      <a href="/add-recipe/">➕ Add Recipe</a>
+      <a href="/add-recipe/">Add Recipe</a>
       <a href="/manage-recipes/">Manage</a>
       <a href="/profile/">Profile</a>
       <a href="#" class="logout" id="nav-logout">Logout</a>
@@ -409,7 +409,6 @@ function buildNavbar() {
   } else {
     nav.innerHTML = `
       <a href="/user-dashboard/">Home</a>
-      <a href="/recipes/">Recipes</a>
       <a href="/search/">Search</a>
       <a href="/favorites/">Favorites</a>
       <a href="/profile/">Profile</a>

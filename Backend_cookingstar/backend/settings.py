@@ -1,7 +1,7 @@
 """
 Django settings for backend project.
 """
-
+import dj_database_url
 from pathlib import Path
 import os
 
